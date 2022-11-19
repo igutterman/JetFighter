@@ -5,6 +5,86 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 //Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
+
+function AddToRoomsList(roomName) {
+    var li = document.createElement("li");
+    var btn = document.createElement("button");
+    btn.textContent = "Join Room";
+    btn.className = "joinRoomButton";
+    btn.value = roomName;
+    btn.onclick = function () {
+        console.log("join button clicked");
+
+        let form = document.getElementById("joinRoomForm");
+        let input = document.getElementById("joinRoomInput");
+        input.value = roomName;
+
+
+        //document.body.appendChild(form);
+        form.submit();
+
+
+
+        //connection.invoke("JoinRoom", btn.value).catch(function (err) {
+        //    return console.error(err.toString());
+        //});
+        event.preventDefault();
+    }
+    document.getElementById("roomsList").appendChild(li);
+
+    li.id = `${roomName + "li"}`;
+
+    li.textContent = `${roomName}`;
+    var buttonDiv = document.createElement("div");
+    buttonDiv.className = "buttonDiv";
+    li.appendChild(buttonDiv);
+    console.log(buttonDiv);
+    buttonDiv.appendChild(btn);
+}
+
+function RemoveFromRoomsList(roomName) {
+    let room = document.getElementById(roomName + "li");
+    room.remove();
+}
+
+function AddChatRoom(roomName) {
+
+    let chatRooms = document.getElementById("ChatRooms");
+
+    let chatRoom = document.createElement("div");
+    chatRooms.appendChild(chatRoom);
+    let textSpan = document.createElement("span");
+    chatRoom.appendChild(textSpan);
+    textSpan.textContent = "Room: " + roomName;
+    chatRoom.className = roomName + "ChatRoom";
+    let msgList = document.createElement("ul");
+    chatRoom.appendChild(msgList);
+    msgList.id = roomName;
+
+    let input = document.createElement("input");
+    input.type = "text";
+    input.className = "col-4";
+    input.id = roomName + "input";
+
+    chatRoom.appendChild(input);
+
+    let button = document.createElement("button");
+    button.textContent = "Send Message To Room";
+    button.className = "RoomMessageButton";
+    button.value = roomName;
+    button.onclick = function () {
+        let room = button.value;
+        let message = document.getElementById(roomName + "input").value;
+        connection.invoke("SendMessageToGroup", message, room).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    }
+
+    chatRoom.appendChild(button);
+
+}
+
 connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     document.getElementById("messagesList").appendChild(li);
@@ -14,8 +94,20 @@ connection.on("ReceiveMessage", function (user, message) {
     li.textContent = `${user} says ${message}`;
 });
 
+connection.on("ReceiveGroupMessage", function (message, group) {
+    console.log("Group message received");
+    console.log(message);
+    console.log(group);
+    let list = document.getElementById(group);
+    let li = document.createElement("li");
+    list.appendChild(li);
+    li.textContent = `${message}`;
+})
+
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
+
+    BuildRoomsList();
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -30,21 +122,12 @@ document.getElementById("sendButton").addEventListener("click", function (event)
 });
 
 connection.on("AddRoom", function (roomName) {
-    var li = document.createElement("li");
-    var btn = document.createElement("button");
-    btn.innerHtml = "Join Room";
-    btn.class 
-    btn.value = roomName;
-    btn.onclick = function () {
-        var room = btn.value;
-        connection.invoke("JoinRoom", room).catch(function (err) {
-            return console.error(err.toString());
-        });
-        event.preventDefault();
-    }
-    document.getElementById("roomsList").appendChild(li);
-    li.textContent = `${roomName}`;
-    li.appendChild(btn);
+    AddToRoomsList(roomName);
+    //AddChatRoom(roomName);
+});
+
+connection.on("RemoveRoom", function (roomName) {
+    RemoveFromRoomsList(roomName);
 })
 
 document.getElementById("addRoomButton").addEventListener("click", function (event) {
@@ -53,4 +136,25 @@ document.getElementById("addRoomButton").addEventListener("click", function (eve
         return console.error(err.toString());
     });
     event.preventDefault();
-})
+});
+
+
+function BuildRoomsList() {
+
+    connection.invoke("PassRoomsList").catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    connection.on("ReceiveRoomsList", function (roomsList) {
+
+        for (const [key, value] of Object.entries(roomsList)) {
+            console.log(key, value);
+            AddToRoomsList(key);
+        }
+
+    });
+
+
+
+
+}

@@ -7,7 +7,7 @@ namespace SignalRChat.Models
     {
 
         public string Name { get; set; }
-        public IList<User> Users { get; set; }
+        //public IList<User> Users { get; set; }
 
         private bool _disposed;
 
@@ -22,7 +22,7 @@ namespace SignalRChat.Models
 
 
             _hubConnection = new HubConnectionBuilder()
-                .WithUrl(new Uri($"{HostDomain}/hub/notifications"))
+                .WithUrl(new Uri($"{HostDomain}/chatHub"))
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -31,10 +31,10 @@ namespace SignalRChat.Models
 
         }
 
-        public void AddUser(User user)
-        {
-            Users.Add(user); 
-        }
+        //public void AddUser(User user)
+        //{
+        //    Users.Add(user); 
+        //}
 
 
         public async ValueTask DisposeAsync()

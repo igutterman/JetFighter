@@ -16,3 +16,18 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.joinRoomButton {
+    padding: 0px;
+    margin: auto;
+    height: 25px;
+    width: 100px;
+    line-height: 1.25rem;
+}
+
+.buttonDiv {
+    display: inline-block;
+    height: 20px;
+    width: 10px;
+    padding-left: 15px;
+}

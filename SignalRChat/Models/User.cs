@@ -3,12 +3,16 @@
     public class User
     {
 
-        public string ConnectionId { get; set; }
 
+        public string _name { get; set; }
 
-        public User(string connectionId)
+        public IList<string> ConnectionIds = new List<string>();
+
+        public User(string name, string connectionId)
         {
-            ConnectionId = connectionId;
+            _name = name;
+
+            ConnectionIds.Add(connectionId);
         }
     }
 }

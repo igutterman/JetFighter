@@ -1,4 +1,9 @@
 ﻿@page
+
+@using Microsoft.AspNetCore.Antiforgery;
+@inject IAntiforgery AntiForgery;
+
+
     <div class="container">
         <div class="row">&nbsp;</div>
         <div class="row">
@@ -35,5 +40,19 @@
         </div>
         <ul id="roomsList"></ul>
     </div>
+
+
+    <form method="post" id="joinRoomForm" target="_blank" action="/Room" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <input name="Name" type="hidden" id="joinRoomInput"/>
+    </form>
+
+
+    <div class="ChatRooms" id="ChatRooms">
+
+
+
+    </div>
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
 <script src="~/js/chat.js"></script>
+
