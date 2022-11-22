@@ -28,7 +28,7 @@
                 return false;
             }
 
-            var denominator = ((b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.y) * (a2.y - a1.y));
+            var denominator = ((b2.y - b1.y) * (a2.x - a1.x) - (b2.x - b1.x) * (a2.y - a1.y));
 
             // Lines are parallel
             if (denominator == 0)
