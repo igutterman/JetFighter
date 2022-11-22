@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using SignalRChat.Models;
+using System.Collections.Concurrent;
 
 namespace SignalRChat.Clients
 {
@@ -15,5 +16,10 @@ namespace SignalRChat.Clients
 
 
         Task RemoveRoom(string roomName);
+
+        //needed?
+        Task OnNotificationReceived(Notification notification);
+
+        Task TableClicked(string roomName, string userID);
     }
 }

@@ -15,8 +15,6 @@ connection.start().then(function () {
 });
 
 
-
-
 connection.on("ReceiveGroupMessage", function (user, message, group) {
     console.log("Group message received");
 
@@ -37,4 +35,14 @@ document.getElementById("sendButton").addEventListener("click", function (event)
         return console.error(err.toString());
     });
     event.preventDefault();
+});
+
+document.getElementById("table").addEventListener("click", function (event) {
+
+    console.log("table clicked");
+    connection.invoke("TableClicked", roomName).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+
 });

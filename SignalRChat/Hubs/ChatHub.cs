@@ -15,17 +15,19 @@ namespace SignalRChat.Hubs
 
         private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
+        private readonly static ConcurrentDictionary<string, TicTacToe> games = new ConcurrentDictionary<string, TicTacToe>();
 
 
-        //public override async Task OnConnectedAsync()
-        //{
 
-        //    string name = Context.User.Identity.Name;
+        public override async Task OnConnectedAsync()
+        {
 
-        //    _connections.Add(name, Context.ConnectionId);
+            //string name = Context.User.Identity.Name;
+            //_connections.Add(name, Context.ConnectionId);
 
-        //    await base.OnConnectedAsync();
-        //}
+
+            await base.OnConnectedAsync();
+        }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
@@ -98,6 +100,7 @@ namespace SignalRChat.Hubs
             //rooms.TryAdd(name, new List<string> { Context.ConnectionId });
 
             rooms.TryAdd(name, new List<string>());
+            games.TryAdd(name, new TicTacToe(name));
 
             await Clients.All.AddRoom(name);
             //needs to send new room to rooms list that clients see
@@ -121,6 +124,8 @@ namespace SignalRChat.Hubs
 
             Console.WriteLine($"{Context.ConnectionId.ToString()} joined room: {name} ");
 
+            games[name].AddPlayer(Context.ConnectionId);
+
             
         }
 
@@ -131,6 +136,15 @@ namespace SignalRChat.Hubs
 
             
         }
+
+
+
+
+
+        //public async Task SendNotification(Notification notification, string group)
+        //{
+
+        //}
 
 
 
