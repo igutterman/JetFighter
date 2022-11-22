@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace SignalRChat.Models
+namespace SignalRGame.Models
 {
     public sealed class Room : IAsyncDisposable
     {

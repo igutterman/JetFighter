@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.SignalR.Client;
-using SignalRChat.Models;
-using SignalRChat.Hubs;
+using SignalRGame.Models;
+using SignalRGame.Hubs;
 
-namespace SignalRChat
+namespace SignalRGame
 {
     public class TicTacToe
     {

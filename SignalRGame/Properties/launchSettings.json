@@ -8,7 +8,7 @@
     }
   },
   "profiles": {
-    "SignalRChat": {
+    "SignalRGame": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

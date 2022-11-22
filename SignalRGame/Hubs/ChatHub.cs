@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
-using SignalRChat.Models;
+using SignalRGame.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using SignalRChat.Clients;
+using SignalRGame.Clients;
 
 
-namespace SignalRChat.Hubs
+namespace SignalRGame.Hubs
 {
     public class ChatHub : Hub<IChatClient>
     {

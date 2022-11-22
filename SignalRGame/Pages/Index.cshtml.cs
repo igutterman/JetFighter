@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace SignalRChat.Pages
+namespace SignalRGame.Pages
 {
     public class IndexModel : PageModel
     {

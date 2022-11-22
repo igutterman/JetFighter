@@ -1,4 +1,4 @@
-﻿namespace SignalRChat.Models
+﻿namespace SignalRGame.Models
 {
     public class User
     {

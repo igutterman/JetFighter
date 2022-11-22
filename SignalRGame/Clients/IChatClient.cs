@@ -1,7 +1,7 @@
-﻿using SignalRChat.Models;
+﻿using SignalRGame.Models;
 using System.Collections.Concurrent;
 
-namespace SignalRChat.Clients
+namespace SignalRGame.Clients
 {
     public interface IChatClient
     {

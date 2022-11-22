@@ -1,4 +1,4 @@
-﻿namespace SignalRChat
+﻿namespace SignalRGame
 {
     public class ConnectionMapping<T>
     {
