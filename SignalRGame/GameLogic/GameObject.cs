@@ -39,19 +39,22 @@ namespace SignalRGame.GameLogic
 
         public virtual void Update(float elapsedTime)
         {
-            X += MathF.Sin(Angle) * Velocity;
-            Y += MathF.Sin(Angle) * Velocity;
+            X += MathF.Cos(Angle) * Velocity * GameConfig.gameSpeed;
+            Y += MathF.Sin(Angle) * Velocity * GameConfig.gameSpeed;
 
+
+            // This doesn't account for collisions that happen over the edge of the canvas.
+            // DP we want to do anything about that
             if (X > GameConfig.canvasWidth)
                 X -= GameConfig.canvasWidth;
 
             if (Y > GameConfig.canvasHeight)
                 Y -= GameConfig.canvasHeight;
 
-            if (X < GameConfig.canvasWidth)
+            if (X < 0)
                 X += GameConfig.canvasWidth;
 
-            if (Y < GameConfig.canvasHeight)
+            if (Y < 0)
                 Y += GameConfig.canvasHeight;
 
             foreach (var hitbox in Hitboxes)
