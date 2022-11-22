@@ -1,4 +1,4 @@
-﻿namespace SignalRChat.GameLogic.Physics
+﻿namespace SignalRGame.GameLogic.Physics
 {
     public class Rectangle
     {

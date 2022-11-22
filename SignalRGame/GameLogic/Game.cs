@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 
-namespace SignalRChat.GameLogic
+namespace SignalRGame.GameLogic
 {
     public class Game
     {

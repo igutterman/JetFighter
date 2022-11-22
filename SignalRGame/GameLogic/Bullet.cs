@@ -1,4 +1,4 @@
-﻿namespace SignalRChat.GameLogic
+﻿namespace SignalRGame.GameLogic
 {
     public class Bullet : GameObject
     {

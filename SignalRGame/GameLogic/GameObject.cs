@@ -1,6 +1,6 @@
-﻿using SignalRChat.GameLogic.Physics;
+﻿using SignalRGame.GameLogic.Physics;
 
-namespace SignalRChat.GameLogic
+namespace SignalRGame.GameLogic
 {
     public class GameObject : IGameObject
     {
