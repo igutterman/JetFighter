@@ -5,13 +5,13 @@ namespace SignalRGame.GameLogic
 {
     public class Game
     {
-
         private CancellationTokenSource cts;
 
         private ConcurrentBag<FighterJet> jets;
 
-        public Game()
+        public Game(float canvasWidth, float canvasHeight)
         {
+
             cts = new CancellationTokenSource();
             jets = new ConcurrentBag<FighterJet>();
         }

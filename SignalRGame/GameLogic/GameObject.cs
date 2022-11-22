@@ -42,6 +42,18 @@ namespace SignalRGame.GameLogic
             X += MathF.Sin(Angle) * Velocity;
             Y += MathF.Sin(Angle) * Velocity;
 
+            if (X > GameConfig.canvasWidth)
+                X -= GameConfig.canvasWidth;
+
+            if (Y > GameConfig.canvasHeight)
+                Y -= GameConfig.canvasHeight;
+
+            if (X < GameConfig.canvasWidth)
+                X += GameConfig.canvasWidth;
+
+            if (Y < GameConfig.canvasHeight)
+                Y += GameConfig.canvasHeight;
+
             foreach (var hitbox in Hitboxes)
             {
                 // All hitboxes are centered on object for the moment.
