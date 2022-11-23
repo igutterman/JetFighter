@@ -17,9 +17,8 @@ namespace SignalRGame.Clients
 
         Task RemoveRoom(string roomName);
 
-        //needed?
-        Task OnNotificationReceived(Notification notification);
+        Task ReceiveTurn(char c, int row, int col);
 
-        Task TableClicked(string roomName, string userID);
+        Task ReceiveWin(char c);
     }
 }
