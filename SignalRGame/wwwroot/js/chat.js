@@ -19,8 +19,6 @@ function AddToRoomsList(roomName) {
         let input = document.getElementById("joinRoomInput");
         input.value = roomName;
 
-
-        //document.body.appendChild(form);
         form.submit();
 
 
@@ -155,6 +153,14 @@ function BuildRoomsList() {
     });
 
 
-
-
 }
+
+function GetJetFighter() {
+    connection.invoke("SendJetFighter").catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+connection.on("ReceiveJetFighter", function (jet) {
+    console.log(jet);
+});

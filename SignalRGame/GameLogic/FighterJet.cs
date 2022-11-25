@@ -1,10 +1,15 @@
 ﻿using SignalRGame.GameLogic.Physics;
 
+using System.Text.Json.Serialization;
+
+
 namespace SignalRGame.GameLogic
 {
+
     public class FighterJet : GameObject
     {
-        public List<Bullet> Bullets { get; private set; }
+
+        public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
         public FighterJet(float x, float y, float angle)
             : base(x, y, angle, 0.5f)
         {
@@ -18,6 +23,7 @@ namespace SignalRGame.GameLogic
         {
             Bullets.Add(new Bullet(X, Y, Angle));
         }
+
 
         public override void Update(float elapsedTime)
         {

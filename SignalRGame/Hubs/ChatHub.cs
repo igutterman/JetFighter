@@ -4,6 +4,7 @@ using SignalRGame.Models;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SignalRGame.Clients;
+using SignalRGame.GameLogic;
 
 
 namespace SignalRGame.Hubs
@@ -171,6 +172,16 @@ namespace SignalRGame.Hubs
         {
             await Clients.Group(group).ReceiveWin(c);
 
+        }
+
+        public async Task SendJetFighter()
+        {
+            FighterJet jet = new FighterJet(500, 500, 0.5F);
+
+            jet.Bullets.Add(new Bullet(501, 501, 0.5F));
+            jet.Bullets.Add(new Bullet(502, 502, 0.4F));
+
+            await Clients.Caller.ReceiveJetFighter(jet);
         }
 
 

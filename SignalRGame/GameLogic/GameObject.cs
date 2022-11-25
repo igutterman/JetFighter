@@ -1,7 +1,9 @@
 ﻿using SignalRGame.GameLogic.Physics;
+using System.Text.Json.Serialization;
 
 namespace SignalRGame.GameLogic
 {
+    
     public class GameObject : IGameObject
     {
         public GameObject(float x, float y, float angle, float velocity)
@@ -21,6 +23,8 @@ namespace SignalRGame.GameLogic
         public float Angle { get; set; }
 
         public float Velocity { get; set; }
+
+        [JsonIgnore]
         public List<Rectangle> Hitboxes { get => hitboxes; }
 
         public bool MarkForDeletion { get; set; }
@@ -93,5 +97,7 @@ namespace SignalRGame.GameLogic
             }
             return false;
         }
+
+
     }
 }

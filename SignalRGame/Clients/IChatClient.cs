@@ -1,5 +1,6 @@
 ﻿using SignalRGame.Models;
 using System.Collections.Concurrent;
+using SignalRGame.GameLogic;
 
 namespace SignalRGame.Clients
 {
@@ -20,5 +21,7 @@ namespace SignalRGame.Clients
         Task ReceiveTurn(char c, int row, int col);
 
         Task ReceiveWin(char c);
+
+        Task ReceiveJetFighter(FighterJet jet);
     }
 }
