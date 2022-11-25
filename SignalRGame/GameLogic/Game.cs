@@ -26,14 +26,6 @@ namespace SignalRGame.GameLogic
 
         }
 
-        public void AddParkedJet(float x, float y, float angle)
-        {
-            var jet = new FighterJet2(x, y, angle);
-
-            jets.Add(jet);
-
-        }
-
         public void Pause()
         {
             cts.Cancel();
