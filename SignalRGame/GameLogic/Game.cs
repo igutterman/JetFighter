@@ -9,7 +9,7 @@ namespace SignalRGame.GameLogic
 
         private ConcurrentBag<FighterJet> jets;
 
-        public Game(float canvasWidth, float canvasHeight)
+        public Game()
         {
 
             cts = new CancellationTokenSource();
@@ -23,6 +23,14 @@ namespace SignalRGame.GameLogic
             jets.Add(jet);
 
             return jet;
+
+        }
+
+        public void AddParkedJet(float x, float y, float angle)
+        {
+            var jet = new FighterJet2(x, y, angle);
+
+            jets.Add(jet);
 
         }
 
@@ -64,14 +72,32 @@ namespace SignalRGame.GameLogic
                         if (jetOther == jet)
                             continue;
 
+                        if (jet.CollidesWith(jetOther))
+                        {
+                            System.Diagnostics.Debug.WriteLine("collision");
+                            ;
+                        }
+
                         foreach(var bullet in jetOther.Bullets)
                         {
                             if (jet.CollidesWith(bullet))
                             {
+                                System.Diagnostics.Debug.WriteLine("collision");
+                                ;
                                 // mark jet as hit by jetOther
                                 // something else will have to clean up the jets
                             }
                         }
+                    }
+                }
+
+                if (OnSendState != null)
+                {
+                    OnSendState(jets.ToArray());
+
+                    foreach (var jet in jets)
+                    {
+                        jet.Clean();
                     }
                 }
 
@@ -81,5 +107,9 @@ namespace SignalRGame.GameLogic
             }
 
         }
+
+        public SendState OnSendState;
+
+        public delegate void SendState(FighterJet[] jets);
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace SignalRGame.GameLogic.Physics
+﻿using System;
+using System.Net.Security;
+
+namespace SignalRGame.GameLogic.Physics
 {
     public struct Vec2
     {
@@ -49,13 +52,41 @@
             // Return a object with the x and y coordinates of the intersection
             //var x = a1.x + ua * (a2.x - a1.x);
             //var y = a1.y + ua * (a2.y - a1.y);
-
             return true;
         }
 
-        public static Vec2 Add(Vec2 a, Vec2 b)
-        {
+        public static Vec2 operator +(Vec2 a, Vec2 b)
+        { 
             return new Vec2() { x = a.x + b.x, y = a.y + b.y };
         }
+
+        public static Vec2 operator -(Vec2 a, Vec2 b)
+        {
+            return new Vec2() { x = b.x - a.x, y = b.y - a.y };
+        }
+
+        public static Vec2 operator -(Vec2 a) => new Vec2() { x = -a.x, y = -a.y };
+
+        public static float AbsoluteAngle(Vec2 a)
+        {
+            return MathF.Atan2(a.x, a.y);
+        }
+
+        public static float AngleBetween(Vec2 a, Vec2 b)
+        {
+            var delta = AbsoluteAngle(b) - AbsoluteAngle(a);
+
+
+            if (delta > MathF.PI)
+                delta -= 2 * MathF.PI;
+
+
+            if (delta < -MathF.PI)
+                delta += 2 * MathF.PI;
+
+            return delta;
+
+        }
+
     }
 }
