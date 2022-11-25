@@ -8,6 +8,7 @@ namespace SignalRGame.GameLogic
     {
         public GameObject(float x, float y, float angle, float velocity)
         {
+            position = new Vec2();
             X = x;
             Y = y;
             Angle = angle;
@@ -17,8 +18,10 @@ namespace SignalRGame.GameLogic
 
         private List<Rectangle> hitboxes = new List<Rectangle>();
 
-        public float X { get; set; }
-        public float Y { get; set; }
+        private Vec2 position;
+
+        public float X { get => position.x; set { position.x = value; } }
+        public float Y { get => position.y; set { position.y = value; } }
 
         public float Angle { get; set; }
 
@@ -28,6 +31,7 @@ namespace SignalRGame.GameLogic
         public List<Rectangle> Hitboxes { get => hitboxes; }
 
         public bool MarkForDeletion { get; set; }
+        public Vec2 Position { get => position; }
 
         public void Rotate(float angle)
         {
@@ -69,32 +73,41 @@ namespace SignalRGame.GameLogic
             }
         }
 
+        public abstract void Clean();
+
         public double AngleTo(IGameObject gameObject)
         {
-            var delta = MathF.Atan2(gameObject.X - X, gameObject.Y - Y) - Angle;
-
-            if (delta > MathF.PI)
-                delta -= 2 * MathF.PI;
-
-
-            if (delta < -MathF.PI)
-                delta += 2 * MathF.PI;
-
-            return delta;
-
-
+            return Vec2.AngleBetween(Position, gameObject.Position);
         }
 
         public bool CollidesWith(IGameObject gameObject)
         {
-            foreach(var hitboxa in Hitboxes)
+            foreach (var hitboxa in Hitboxes)
             {
-                foreach(var hitboxb in gameObject.Hitboxes)
+                // check if the hitboxes intersect
+                foreach (var hitboxb in gameObject.Hitboxes)
                 {
                     if (hitboxa.Intersects(hitboxb))
                         return true;
+
                 }
             }
+
+            // check if each object is inside any of the hitboxes
+            // useful for bullets and objects that are fully inside the other
+            foreach (var hitboxa in Hitboxes)
+            {
+                if (hitboxa.Inside(gameObject.Position))
+                    return true;
+            }
+
+            foreach (var hitboxb in gameObject.Hitboxes)
+            {
+                if (hitboxb.Inside(position))
+                    return true;
+
+            }
+
             return false;
         }
 

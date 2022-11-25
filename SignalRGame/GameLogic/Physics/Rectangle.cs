@@ -29,8 +29,8 @@
         {
             get 
             {
-                return Vec2.Add(Position,
-                    Vec2.Rotate(new Vec2() { x =  -width / 2, y = height / 2 }, angle));
+                return Position +
+                    Vec2.Rotate(new Vec2() { x =  -width / 2, y = height / 2 }, angle);
             }
         }
 
@@ -38,8 +38,8 @@
         {
             get
             {
-                return Vec2.Add(Position,
-                    Vec2.Rotate(new Vec2() { x = width / 2, y = height / 2 }, angle));
+                return Position +
+                    Vec2.Rotate(new Vec2() { x = width / 2, y = height / 2 }, angle);
             }
         }
 
@@ -47,8 +47,8 @@
         {
             get
             {
-                return Vec2.Add(Position,
-                    Vec2.Rotate(new Vec2() { x = -width / 2, y = -height / 2 }, angle));
+                return Position +
+                    Vec2.Rotate(new Vec2() { x = -width / 2, y = -height / 2 }, angle);
             }
         }
 
@@ -56,8 +56,8 @@
         {
             get
             {
-                return Vec2.Add(Position,
-                    Vec2.Rotate(new Vec2() { x = width / 2, y = -height / 2 }, angle));
+                return Position +
+                    Vec2.Rotate(new Vec2() { x = width / 2, y = -height / 2 }, angle);
             }
         }
 
@@ -66,8 +66,8 @@
         { 
             // This will double count.
             // Fine for the moment though.
-            var a = new List<Vec2> {TL,TR, BL,BR, TL};
-            var b = new List<Vec2> { other.TL, other.TR, other.BL, other.BR, other.TL };
+            var a = new List<Vec2> {TL,TR, BR,BL, TL};
+            var b = new List<Vec2> { other.TL, other.TR, other.BR, other.BL, other.TL };
 
             for (int i = 0; i < a.Count - 1; i++)
             {
@@ -75,9 +75,27 @@
                 {
                     if (Vec2.Intersect(a[i], a[i + 1], b[i], b[i + 1]))
                         return true;
+
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// Method to check whether a point lies inside this rectangle.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns>True if point is inside the rectangle</returns>
+        public bool Inside(Vec2 point)
+        {
+            var a = new List<Vec2> { TL, TR, BR, BL, TL };
+
+            for (int i = 0; i < a.Count - 1; i++)
+            {
+                if (Vec2.AngleBetween(a[i +1] - a[i], point - a[i]) < 0)
+                    return false;
+            }
+            return true;
         }
     }
 }

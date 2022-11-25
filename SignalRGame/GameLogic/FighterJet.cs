@@ -27,12 +27,28 @@ namespace SignalRGame.GameLogic
 
         public override void Update(float elapsedTime)
         {
+
             foreach (Bullet bullet in Bullets)
             {
                 bullet.Update(elapsedTime);
+
             }    
 
             base.Update(elapsedTime);
+        }
+
+        public override void Clean()
+        {
+            // Remove bullets marked for deletion.
+            var newBullets = new List<Bullet>();
+            foreach (Bullet bullet in Bullets)
+            {
+                if (!bullet.MarkForDeletion)
+                    newBullets.Add(bullet);
+                
+            }
+
+            Bullets = newBullets;
         }
     }
 }
