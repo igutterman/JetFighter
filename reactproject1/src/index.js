@@ -4,14 +4,27 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import { HubConnection } from '@microsoft/signalr';
+import { HubConnection, HubConnectionBuilder, HttpTransportType } from "@microsoft/signalr";
 
 
-const hubConnection = new HubConnection('http://localhost:5134/chatHub');
+const hubConnection = new HubConnectionBuilder()
+    .withUrl("https://localhost:7134/chatHub")
+    .withAutomaticReconnect()
+    .build();
 
-connection.invoke("SendMessageToGroup", "hello", "").catch(function (err) {
+hubConnection.on("ReceiveMessage", function (user, message) {
+    console.log(`${user} says ${message}`);
+});
+
+hubConnection.start().catch (function (err) {
     return console.error(err.toString());
 });
+
+hubConnection.invoke("SendMessage", "hello").catch(function (err) {
+    return console.error(err.toString());
+});
+
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
