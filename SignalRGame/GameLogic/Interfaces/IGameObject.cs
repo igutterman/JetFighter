@@ -11,9 +11,12 @@ namespace SignalRGame.GameLogic
         public double AngleTo(IGameObject gameObject);
 
         public bool CollidesWith (IGameObject gameObject);
+        void Clean();
 
         public float X { get; set; }
         public float Y { get; set; }
+
+        public Vec2 Position { get; }
 
         public float Angle { get; set; }
 

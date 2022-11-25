@@ -4,7 +4,7 @@
     {
         private const float bulletVelocity = 1;
 
-        private float lifetime;
+        private float lifetime = 0;
         private float totalLifetime = 1000;
 
         public Bullet(float x, float y, float angle) : base(x, y, angle, bulletVelocity)
@@ -19,6 +19,11 @@
                 MarkForDeletion = true;
 
             base.Update(elapsedTime);
+        }
+
+        public override void Clean()
+        {
+            return;
         }
     }
 }
