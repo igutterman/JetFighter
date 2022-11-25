@@ -122,7 +122,7 @@ namespace SignalRGame.Hubs
             await Groups.AddToGroupAsync(Context.ConnectionId, name);
             rooms[name].Add(Context.ConnectionId);
 
-            Console.WriteLine($"{Context.ConnectionId.ToString()} joined room: {name} ");
+            Console.WriteLine($"{Context.ConnectionId} joined room: {name} ");
 
             games[name].AddPlayer(Context.ConnectionId);
 
@@ -134,7 +134,43 @@ namespace SignalRGame.Hubs
 
             await Clients.Caller.ReceiveRoomsList(rooms);
 
+        }
+
+        //Game data section
+
+        public async Task ReceiveTurn(string group, int row, int col)
+        {
+
+            TicTacToe game = games[group];
+
             
+
+            int playerNumber = game.getPlayerNumber(Context.ConnectionId);
+            if (playerNumber == -1) return;
+
+            if (!game.isValidMove(playerNumber, row, col)) return;
+
+            game.setCell(playerNumber, row, col);
+
+            char c = playerNumber == 1 ? 'X' : 'O';
+
+            await SendTurn(group, c, row, col);
+
+            if (game.checkWin() != 'Q')
+                await SendWin(group, c);
+
+        }
+
+
+        public async Task SendTurn(string group, char c, int row, int col)
+        {
+            await Clients.Group(group).ReceiveTurn(c, row, col);
+        }
+
+        public async Task SendWin(string group, char c)
+        {
+            await Clients.Group(group).ReceiveWin(c);
+
         }
 
 

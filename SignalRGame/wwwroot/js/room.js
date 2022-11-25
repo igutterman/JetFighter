@@ -37,12 +37,29 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-document.getElementById("table").addEventListener("click", function (event) {
+function setCell(c, row, col) {
 
-    console.log("table clicked");
-    connection.invoke("TableClicked", roomName).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
+    let cellid = "cell" + row.toString() + col.toString();
+    let cell = document.getElementById(cellid);
+    cell.innerHTML = c;
 
-});
+}
+
+
+connection.on("ReceiveTurn", function (c, row, col) {
+
+    setCell(c, row, col);
+
+})
+
+function sendTurn(row, col) {
+    connection.invoke("ReceiveTurn", roomName, row, col);
+}
+
+connection.on("ReceiveWin", function (c) {
+    if (c == 'X') {
+        alert("Player 1 wins!");
+    } else {
+        alert("Player 2 wins!")
+    }
+})
