@@ -24,6 +24,9 @@ namespace SignalRGame.GameLogic
         
         public float Y { get; set; }
         
+
+        public Vec2 Position { get; }
+
         public float Angle { get; set; }
         
         public float Velocity { get; set; }
