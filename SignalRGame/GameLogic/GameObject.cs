@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace SignalRGame.GameLogic
 {
     
-    public class GameObject : IGameObject
+    public abstract class GameObject : IGameObject
     {
         public GameObject(float x, float y, float angle, float velocity)
         {
