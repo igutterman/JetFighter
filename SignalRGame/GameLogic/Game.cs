@@ -9,6 +9,8 @@ namespace SignalRGame.GameLogic
 
         private ConcurrentBag<FighterJet> jets;
 
+        private ConcurrentBag<string> players;
+
         public Game()
         {
 
@@ -24,6 +26,17 @@ namespace SignalRGame.GameLogic
 
             return jet;
 
+        }
+
+        public string AddPlayer(string playerID)
+        {
+            players.Add(playerID);
+            return playerID;
+        }
+
+        public IList<FighterJet> GetJets()
+        {
+            return jets.ToList();
         }
 
         public void Pause()

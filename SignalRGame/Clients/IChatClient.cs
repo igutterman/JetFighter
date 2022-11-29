@@ -22,6 +22,8 @@ namespace SignalRGame.Clients
 
         Task ReceiveWin(char c);
 
-        Task ReceiveJetFighter(FighterJet jet);
+        //Task ReceiveJetFighter(FighterJet jet);
+
+        Task ReceiveGameState(GameState state);
     }
 }

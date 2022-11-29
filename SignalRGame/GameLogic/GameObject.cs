@@ -16,6 +16,9 @@ namespace SignalRGame.GameLogic
 
         }
 
+        //added to use object initializer to send dummy data to cli
+        public GameObject() { }
+
         private List<Rectangle> hitboxes = new List<Rectangle>();
 
         private Vec2 position;
@@ -30,7 +33,10 @@ namespace SignalRGame.GameLogic
         [JsonIgnore]
         public List<Rectangle> Hitboxes { get => hitboxes; }
 
+        [JsonIgnore]
         public bool MarkForDeletion { get; set; }
+
+        [JsonIgnore]
         public Vec2 Position { get => position; }
 
         public void Rotate(float angle)

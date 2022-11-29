@@ -14,9 +14,9 @@ namespace SignalRGame.Hubs
 
         private readonly static ConcurrentDictionary<string, List<string>> rooms = new ConcurrentDictionary<string, List<string>>();
 
-        private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
+        //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
-        private readonly static ConcurrentDictionary<string, TicTacToe> games = new ConcurrentDictionary<string, TicTacToe>();
+        private readonly static ConcurrentDictionary<string, Game> games = new ConcurrentDictionary<string, Game>();
 
 
 
@@ -101,7 +101,7 @@ namespace SignalRGame.Hubs
             //rooms.TryAdd(name, new List<string> { Context.ConnectionId });
 
             rooms.TryAdd(name, new List<string>());
-            games.TryAdd(name, new TicTacToe(name));
+            games.TryAdd(name, new Game());
 
             await Clients.All.AddRoom(name);
             //needs to send new room to rooms list that clients see
@@ -139,28 +139,28 @@ namespace SignalRGame.Hubs
 
         //Game data section
 
-        public async Task ReceiveTurn(string group, int row, int col)
-        {
+        //public async Task ReceiveTurn(string group, int row, int col)
+        //{
 
-            TicTacToe game = games[group];
+        //    TicTacToe game = games[group];
 
             
 
-            int playerNumber = game.getPlayerNumber(Context.ConnectionId);
-            if (playerNumber == -1) return;
+        //    int playerNumber = game.getPlayerNumber(Context.ConnectionId);
+        //    if (playerNumber == -1) return;
 
-            if (!game.isValidMove(playerNumber, row, col)) return;
+        //    if (!game.isValidMove(playerNumber, row, col)) return;
 
-            game.setCell(playerNumber, row, col);
+        //    game.setCell(playerNumber, row, col);
 
-            char c = playerNumber == 1 ? 'X' : 'O';
+        //    char c = playerNumber == 1 ? 'X' : 'O';
 
-            await SendTurn(group, c, row, col);
+        //    await SendTurn(group, c, row, col);
 
-            if (game.checkWin() != 'Q')
-                await SendWin(group, c);
+        //    if (game.checkWin() != 'Q')
+        //        await SendWin(group, c);
 
-        }
+        //}
 
 
         public async Task SendTurn(string group, char c, int row, int col)
@@ -174,14 +174,32 @@ namespace SignalRGame.Hubs
 
         }
 
-        public async Task SendJetFighter()
+        //public async Task SendJetFighter()
+        //{
+        //    FighterJet jet = new FighterJet(500, 500, 0.5F);
+
+        //    jet.Bullets.Add(new Bullet(501, 501, 0.5F));
+        //    jet.Bullets.Add(new Bullet(502, 502, 0.4F));
+
+        //    await Clients.Caller.ReceiveJetFighter(jet);
+        //
+
+        public async Task SendGameState(string group)
         {
-            FighterJet jet = new FighterJet(500, 500, 0.5F);
 
-            jet.Bullets.Add(new Bullet(501, 501, 0.5F));
-            jet.Bullets.Add(new Bullet(502, 502, 0.4F));
+            GameState state = new GameState
+            {
+                Jets = games[group].GetJets()
+            };
 
-            await Clients.Caller.ReceiveJetFighter(jet);
+
+            await Clients.Group(group).ReceiveGameState(state);
+        }
+
+        public async Task SendDummyState()
+        {
+            GameState state = new GameState();
+            await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
         }
 
 
