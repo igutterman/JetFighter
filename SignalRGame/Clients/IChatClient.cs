@@ -25,5 +25,7 @@ namespace SignalRGame.Clients
         //Task ReceiveJetFighter(FighterJet jet);
 
         Task ReceiveGameState(GameState state);
+
+        Task AddPlayerToGame(string roomName);
     }
 }

@@ -53,6 +53,16 @@ connection.on("ReceiveGameState", function (state) {
     gameState = state;
 });
 
+function startGame() {
+
+    if (gameName === null) {
+        alert("Failed to start game: You are not in a game room!");
+        return;
+    }
+
+    connection.invoke("StartGame", gameName);
+}
+
 
 function drawState(state) {
 
@@ -60,8 +70,6 @@ function drawState(state) {
         eval('var jet' + i + ' =  state.jets[i]');
 
         let jet = state.jets[i];
-
-
 
     }
 

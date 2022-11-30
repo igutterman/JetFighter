@@ -2,6 +2,9 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
+//set back to null when leave game?
+var gameName = null;
+
 //Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
@@ -15,17 +18,15 @@ function AddToRoomsList(roomName) {
     btn.onclick = function () {
         console.log("join button clicked");
 
-        let form = document.getElementById("joinRoomForm");
-        let input = document.getElementById("joinRoomInput");
-        input.value = roomName;
-
-        form.submit();
+        //let form = document.getElementById("joinRoomForm");
+        //let input = document.getElementById("joinRoomInput");
+        //input.value = roomName;
 
 
+        //form.submit();
 
-        //connection.invoke("JoinRoom", btn.value).catch(function (err) {
-        //    return console.error(err.toString());
-        //});
+        connection.invoke("AddPlayerToGame", roomName);
+        gameName = roomName;
         event.preventDefault();
     }
     document.getElementById("roomsList").appendChild(li);

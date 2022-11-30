@@ -9,13 +9,14 @@ namespace SignalRGame.GameLogic
 
         private ConcurrentBag<FighterJet> jets;
 
-        private ConcurrentBag<string> players;
+        private ConcurrentDictionary<string, FighterJet> players;
 
         public Game()
         {
 
             cts = new CancellationTokenSource();
             jets = new ConcurrentBag<FighterJet>();
+            players = new ConcurrentDictionary<string, FighterJet>();
         }
 
         public FighterJet AddJet(float x, float y, float angle)
@@ -30,8 +31,26 @@ namespace SignalRGame.GameLogic
 
         public string AddPlayer(string playerID)
         {
-            players.Add(playerID);
-            return playerID;
+
+            if (players.Count == 0)
+            {
+                FighterJet jet = AddJet(100, 100, 1.57f);
+                players.TryAdd(playerID, jet);
+                return playerID;
+            } else if (players.Count == 1)
+            {
+                FighterJet jet = AddJet(900, 900, 4.71f);
+                players.TryAdd(playerID, jet);
+                return playerID;
+            }
+
+            return "player slots full";
+
+        }
+
+        public int GetPlayerCount()
+        {
+            return players.Count;
         }
 
         public IList<FighterJet> GetJets()

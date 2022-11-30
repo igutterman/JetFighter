@@ -184,16 +184,16 @@ namespace SignalRGame.Hubs
         //    await Clients.Caller.ReceiveJetFighter(jet);
         //
 
-        public async Task SendGameState(string group)
+        public async Task SendGameState(string group, FighterJet[] jets)
         {
 
             GameState state = new GameState
             {
-                Jets = games[group].GetJets()
+                Jets = jets
             };
 
 
-            await Clients.Group(group).ReceiveGameState(state);
+            Clients.Group(group).ReceiveGameState(state);
         }
 
         public async Task SendDummyState()
@@ -201,6 +201,45 @@ namespace SignalRGame.Hubs
             GameState state = new GameState();
             await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
         }
+
+        public string AddPlayerToGame(string roomName)
+        {
+
+            if (!games.ContainsKey(roomName))
+            {
+                return "no such game";
+            }
+                
+            Game game = games[roomName];
+
+            return game.AddPlayer(Context.ConnectionId);
+        }
+
+
+        public void StartGame(string roomName)
+        {
+
+            if (!games.ContainsKey(roomName))
+                return;
+
+            Game game = games[roomName];
+
+            game.OnSendState = OnStateChanged;
+
+            async void OnStateChanged(FighterJet[] jets)
+            {
+                //Console.WriteLine($"jet0: {jets[0].X}, {jets[0].Y}");
+                SendGameState(roomName, jets);
+            }
+
+            game.Start();
+
+
+        }
+
+
+
+
 
 
 
