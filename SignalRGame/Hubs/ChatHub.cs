@@ -18,6 +18,15 @@ namespace SignalRGame.Hubs
 
         private readonly static ConcurrentDictionary<string, Game> games = new ConcurrentDictionary<string, Game>();
 
+        //private readonly static IHubContext<ChatHub, IChatClient> _context;
+
+        private readonly GameService _gameService;
+
+        public ChatHub(GameService gameService)
+        {
+            _gameService = gameService;
+        }
+
 
 
         public override async Task OnConnectedAsync()
@@ -25,6 +34,8 @@ namespace SignalRGame.Hubs
 
             //string name = Context.User.Identity.Name;
             //_connections.Add(name, Context.ConnectionId);
+
+            await _gameService.SayHi();
 
 
             await base.OnConnectedAsync();
@@ -91,19 +102,24 @@ namespace SignalRGame.Hubs
           => await Clients.Group(group).ReceiveGroupMessage(user, message, group);
 
 
-        public async Task CreateRoom(string name)
+        public async Task CreateGame(string gameName)
         {
 
 
-            if (rooms.ContainsKey(name)) return;
+            //if (rooms.ContainsKey(name)) return;
+            if (_gameService.checkGameExists(gameName))
+                return;
+
+
+            _gameService.createGame(gameName);
             
-            //Creating a room does not add the room creator to it, since connection will be in a new client.
+            //Creating a room does not add the room creator to it,  ///since connection will be in a new client. <- not anymore
             //rooms.TryAdd(name, new List<string> { Context.ConnectionId });
 
-            rooms.TryAdd(name, new List<string>());
-            games.TryAdd(name, new Game());
+            //rooms.TryAdd(name, new List<string>());
+            //games.TryAdd(name, new Game());
 
-            await Clients.All.AddRoom(name);
+            await Clients.All.AddGame(gameName);
             //needs to send new room to rooms list that clients see
 
 
@@ -130,10 +146,10 @@ namespace SignalRGame.Hubs
             
         }
 
-        public async Task PassRoomsList()
+        public async Task PassGamesList()
         {
 
-            await Clients.Caller.ReceiveRoomsList(rooms);
+            await Clients.Caller.ReceiveGamesList(_gameService.getGamesList());
 
         }
 
@@ -187,52 +203,63 @@ namespace SignalRGame.Hubs
         public async Task SendGameState(string group, FighterJet[] jets)
         {
 
-            GameState state = new GameState
-            {
-                Jets = jets
-            };
+            GameState state = new GameState(jets);
 
+            Console.WriteLine(jets[0].ToString());
 
-            Clients.Group(group).ReceiveGameState(state);
+            await Clients.Group(group).ReceiveGameState(state);
         }
 
+        //delete after testing and remove no-params gamestate constructor
         public async Task SendDummyState()
         {
             GameState state = new GameState();
             await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
         }
 
-        public string AddPlayerToGame(string roomName)
+        public async Task AddPlayerToGame(string gameName)
         {
 
-            if (!games.ContainsKey(roomName))
+            if (!_gameService.checkGameExists(gameName))
             {
-                return "no such game";
+                await Clients.Caller.ReceiveAddToGameResponse("No such game", false, gameName);
+                return;
             }
-                
-            Game game = games[roomName];
 
-            return game.AddPlayer(Context.ConnectionId);
+            bool success = _gameService.AddPlayerToGame(gameName, Context.ConnectionId);
+
+            if (success)
+            {
+                await Groups.AddToGroupAsync(Context.ConnectionId, gameName);
+            }
+
+            string message = success ? $"You joined {gameName}" : $"Failed to join {gameName}, full";
+
+
+            await Clients.Caller.ReceiveAddToGameResponse(message, true, gameName);
+
+
+            //Game game = games[roomName];
+            //return game.AddPlayer(Context.ConnectionId);
         }
 
 
-        public void StartGame(string roomName)
+        public void StartGame(string gameName)
         {
 
-            if (!games.ContainsKey(roomName))
-                return;
+            _gameService.StartGame(gameName);
 
-            Game game = games[roomName];
+            //Game game = games[roomName];
 
-            game.OnSendState = OnStateChanged;
+            //game.OnSendState = OnStateChanged;
 
-            async void OnStateChanged(FighterJet[] jets)
-            {
-                //Console.WriteLine($"jet0: {jets[0].X}, {jets[0].Y}");
-                SendGameState(roomName, jets);
-            }
+            //async void OnStateChanged(FighterJet[] jets)
+            //{
+            //    Console.WriteLine($"jet0: {jets[0].X}, {jets[0].Y}");
+            //    await SendGameState(roomName, jets);
+            //}
 
-            game.Start();
+            //game.Start();
 
 
         }

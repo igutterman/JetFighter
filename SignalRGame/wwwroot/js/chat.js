@@ -3,18 +3,28 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
 //set back to null when leave game?
-var gameName = null;
+var game = null;
 
 //Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
+connection.on("ReceiveAddToGameResponse", function (responseMessage, success, gameName) {
+    alert(responseMessage);
 
-function AddToRoomsList(roomName) {
+    //change response type to bool, check if true
+    if (success === true) {
+        game = gameName;
+    }
+    
+    event.preventDefault();
+});
+
+function AddToGamesList(gameName) {
     var li = document.createElement("li");
     var btn = document.createElement("button");
-    btn.textContent = "Join Room";
-    btn.className = "joinRoomButton";
-    btn.value = roomName;
+    btn.textContent = "Join Game";
+    btn.className = "joinGameButton";
+    btn.value = gameName;
     btn.onclick = function () {
         console.log("join button clicked");
 
@@ -25,15 +35,15 @@ function AddToRoomsList(roomName) {
 
         //form.submit();
 
-        connection.invoke("AddPlayerToGame", roomName);
-        gameName = roomName;
+        connection.invoke("AddPlayerToGame", gameName);
+        
         event.preventDefault();
     }
     document.getElementById("roomsList").appendChild(li);
 
-    li.id = `${roomName + "li"}`;
+    li.id = `${gameName + "li"}`;
 
-    li.textContent = `${roomName}`;
+    li.textContent = `${gameName}`;
     var buttonDiv = document.createElement("div");
     buttonDiv.className = "buttonDiv";
     li.appendChild(buttonDiv);
@@ -41,11 +51,15 @@ function AddToRoomsList(roomName) {
     buttonDiv.appendChild(btn);
 }
 
-function RemoveFromRoomsList(roomName) {
-    let room = document.getElementById(roomName + "li");
-    room.remove();
+
+
+function RemoveFromGamesList(gameName) {
+    let game = document.getElementById(gameName + "li");
+    game.remove();
 }
 
+
+//think this was from when all chat rooms were on one page, if so can be deleted
 function AddChatRoom(roomName) {
 
     let chatRooms = document.getElementById("ChatRooms");
@@ -106,7 +120,7 @@ connection.on("ReceiveGroupMessage", function (message, group) {
 connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 
-    BuildRoomsList();
+    BuildGamesList();
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -120,8 +134,8 @@ document.getElementById("sendButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-connection.on("AddRoom", function (roomName) {
-    AddToRoomsList(roomName);
+connection.on("AddGame", function (gameName) {
+    AddToGamesList(gameName);
     //AddChatRoom(roomName);
 });
 
@@ -130,25 +144,28 @@ connection.on("RemoveRoom", function (roomName) {
 })
 
 document.getElementById("addRoomButton").addEventListener("click", function (event) {
-    var roomName = document.getElementById("roomNameInput").value;
-    connection.invoke("CreateRoom", roomName).catch(function (err) {
+    var gameName = document.getElementById("roomNameInput").value;
+    connection.invoke("CreateGame", gameName).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();
 });
 
 
-function BuildRoomsList() {
+function BuildGamesList() {
 
-    connection.invoke("PassRoomsList").catch(function (err) {
+    connection.invoke("PassGamesList").catch(function (err) {
         return console.error(err.toString());
     });
 
-    connection.on("ReceiveRoomsList", function (roomsList) {
+    connection.on("ReceiveGamesList", function (gamesList) {
 
-        for (const [key, value] of Object.entries(roomsList)) {
+        console.log("receivegameslist received");
+        console.log(gamesList);
+
+        for (const [key, value] of Object.entries(gamesList)) {
             console.log(key, value);
-            AddToRoomsList(key);
+            AddToGamesList(key);
         }
 
     });

@@ -11,9 +11,12 @@ namespace SignalRGame.Clients
 
         Task ReceiveGroupMessage(string user, string message, string group);
 
-        Task AddRoom(string roomName);
+        Task ReceiveAddToGameResponse(string response, bool success, string gameName);
 
-        Task ReceiveRoomsList(ConcurrentDictionary<string, List<string>> roomsList);
+        Task AddGame(string gameName);
+
+        //returns dictionary of game names and connected playerIDs
+        Task ReceiveGamesList(Dictionary<string, List<string>> gamesList);
 
 
         Task RemoveRoom(string roomName);

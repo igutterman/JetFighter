@@ -55,12 +55,12 @@ connection.on("ReceiveGameState", function (state) {
 
 function startGame() {
 
-    if (gameName === null) {
+    if (game === null) {
         alert("Failed to start game: You are not in a game room!");
         return;
     }
 
-    connection.invoke("StartGame", gameName);
+    connection.invoke("StartGame", game);
 }
 
 

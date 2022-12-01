@@ -10,7 +10,16 @@ namespace SignalRGame.Models
         public IList<FighterJet> Jets { get; set; } = new List<FighterJet>();
 
 
+        public GameState(IList<FighterJet> jets)
+        {
+            Jets = jets;
+        }
 
+
+        public GameState()
+        {
+
+        }
 
 
 

@@ -1,10 +1,18 @@
+using SignalRGame;
 using SignalRGame.Hubs;
+using SignalRGame.Clients;
+using Microsoft.AspNetCore.SignalR;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
+
+//needed?
+//builder.Services.AddSingleton<IHubContext<ChatHub, IChatClient>>();
+builder.Services.AddSingleton<GameService>();
 
 var app = builder.Build();
 
