@@ -8,15 +8,17 @@ namespace SignalRGame.GameLogic
 
     public class FighterJet : GameObject
     {
-        public string playerID { get; set; }
+        //public string playerID { get; set; }
+
+        public int jetID { get; set; }
         public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
-        public FighterJet(float x, float y, float angle)
+        public FighterJet(float x, float y, float angle, int jetID)
             : base(x, y, angle, 0.5f)
         {
             Bullets = new List<Bullet>();
 
             Hitboxes.Add(new Rectangle(X, Y, 10, 10, angle));
-
+            this.jetID = jetID;
         }
 
         //added to use object initializer for sending dummy data to client

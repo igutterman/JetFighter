@@ -54,6 +54,7 @@ function AddToGamesList(gameName) {
 
 
 function RemoveFromGamesList(gameName) {
+    //console.log("removing game: " + gameName)
     let game = document.getElementById(gameName + "li");
     game.remove();
 }
@@ -139,8 +140,8 @@ connection.on("AddGame", function (gameName) {
     //AddChatRoom(roomName);
 });
 
-connection.on("RemoveRoom", function (roomName) {
-    RemoveFromRoomsList(roomName);
+connection.on("RemoveGame", function (gameName) {
+    RemoveFromGamesList(gameName);
 })
 
 document.getElementById("addRoomButton").addEventListener("click", function (event) {

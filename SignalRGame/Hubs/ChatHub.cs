@@ -49,9 +49,11 @@ namespace SignalRGame.Hubs
 
             string id = Context.ConnectionId;
 
-            Console.WriteLine($"{id} disconnected");
+            await _gameService.removePlayer(id);
 
-            Console.WriteLine($"Removed {id} from room: {RemoveFromRoom(id)}");
+            //Console.WriteLine($"{id} disconnected");
+
+            //Console.WriteLine($"Removed {id} from room: {RemoveFromRoom(id)}");
 
 
 
@@ -59,37 +61,37 @@ namespace SignalRGame.Hubs
 
         }
 
-        public string RemoveFromRoom(string connectionID)
-        {
+        //public string RemoveFromRoom(string connectionID)
+        //{
 
-            foreach (var kv in rooms)
-            {
-                if (kv.Value.Contains(connectionID))
-                {
-                    kv.Value.Remove(connectionID);
-                    string roomName = kv.Key;
+        //    foreach (var kv in rooms)
+        //    {
+        //        if (kv.Value.Contains(connectionID))
+        //        {
+        //            kv.Value.Remove(connectionID);
+        //            string roomName = kv.Key;
 
-                    Console.WriteLine($"count: {kv.Value.Count}");
-                    foreach (string id in kv.Value)
-                    {
-                        Console.WriteLine(id);
-                    }
+        //            Console.WriteLine($"count: {kv.Value.Count}");
+        //            foreach (string id in kv.Value)
+        //            {
+        //                Console.WriteLine(id);
+        //            }
 
-                    if (kv.Value.Count == 0)
-                    {
-                        Console.WriteLine("Room is empty");
-                        rooms.Remove(kv.Key, out _);
-                        Clients.All.RemoveRoom(roomName);
-                    }
+        //            if (kv.Value.Count == 0)
+        //            {
+        //                Console.WriteLine("Room is empty");
+        //                rooms.Remove(kv.Key, out _);
+        //                Clients.All.RemoveGame(gameName);
+        //            }
                         
 
 
-                    return roomName;
-                }
-            }
-            return null;
+        //            return roomName;
+        //        }
+        //    }
+        //    return null;
 
-        }
+        //}
 
 
 
@@ -179,16 +181,16 @@ namespace SignalRGame.Hubs
         //}
 
 
-        public async Task SendTurn(string group, char c, int row, int col)
-        {
-            await Clients.Group(group).ReceiveTurn(c, row, col);
-        }
+        //public async Task SendTurn(string group, char c, int row, int col)
+        //{
+        //    await Clients.Group(group).ReceiveTurn(c, row, col);
+        //}
 
-        public async Task SendWin(string group, char c)
-        {
-            await Clients.Group(group).ReceiveWin(c);
+        //public async Task SendWin(string group, char c)
+        //{
+        //    await Clients.Group(group).ReceiveWin(c);
 
-        }
+        //}
 
         //public async Task SendJetFighter()
         //{
@@ -200,15 +202,15 @@ namespace SignalRGame.Hubs
         //    await Clients.Caller.ReceiveJetFighter(jet);
         //
 
-        public async Task SendGameState(string group, FighterJet[] jets)
-        {
+        //public async Task SendGameState(string group, FighterJet[] jets)
+        //{
 
-            GameState state = new GameState(jets);
+        //    GameState state = new GameState(jets);
 
-            Console.WriteLine(jets[0].ToString());
+        //    //Console.WriteLine(jets[0].ToString());
 
-            await Clients.Group(group).ReceiveGameState(state);
-        }
+        //    await Clients.Group(group).ReceiveGameState(state);
+        //}
 
         //delete after testing and remove no-params gamestate constructor
         public async Task SendDummyState()
