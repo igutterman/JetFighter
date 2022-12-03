@@ -75,20 +75,23 @@ connection.on("NotifyPlayerLeft", function (playerID) {
 
 
 function drawState(state) {
-
+    ctx.clearRect(0, 0, 1000, 1000);
     ctx.fillStyle = "DeepSkyBlue";
     ctx.fillRect(0, 0, 1000, 1000);
     console.log(state);
-    console.log(state.jets.length);
+
+
 
     for (let i = 0; i < state.jets.length; i++) {
         //eval('var jet' + i + ' =  state.jets[i]');
 
+
         let jet = state.jets[i];
+        console.log(jet);
         drawFour(jet);
 
     }
-    //requestAnimationFrame(drawState);
+    //window.requestAnimationFrame(drawState());
 
 }
 
@@ -105,6 +108,8 @@ function drawRotated(img, x, y, angle) {
 
 function drawFour(jet) {
 
+    console.log("drawfour called");
+
     let img;
 
     if (jet.jetID === 1) {
@@ -115,9 +120,18 @@ function drawFour(jet) {
 
 
 
-    let x = jet.X;
-    let y = jet.Y;
-    let angle = jet.Angle;
+    let x = jet.x;
+    let y = jet.y;
+    let angle = jet.angle;
+
+    console.log("jet.X: " + jet.x);
+    console.log("x: " + x);
+
+    console.log("jet.Y: " + jet.y);
+    console.log("y: " + y);
+
+    console.log("jet.Angle: " + jet.angle);
+    console.log("angle: " + angle);
 
     let x1, y1;
 
