@@ -18,8 +18,10 @@ namespace SignalRGame.Clients
         //returns dictionary of game names and connected playerIDs
         Task ReceiveGamesList(Dictionary<string, List<string>> gamesList);
 
+        Task NotifyPlayerLeft(string player);
 
-        Task RemoveRoom(string roomName);
+
+        Task RemoveGame(string gameName);
 
         Task ReceiveTurn(char c, int row, int col);
 

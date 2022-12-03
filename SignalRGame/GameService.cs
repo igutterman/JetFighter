@@ -26,9 +26,46 @@ namespace SignalRGame
             return _games[game].players.Count;
         }
 
-        public void removePlayer(string game)
+        public async Task removePlayer(string playerID)
         {
-        //    _games[game].
+
+            string game = findPlayer(playerID);
+            if (game != string.Empty)
+            {
+                _games[game].players.TryRemove(playerID, out _);
+            }
+
+            //if no players left, remove game
+            if (_games[game].GetPlayerCount() == 0) {
+                await removeGame(game);
+            } else
+            {
+                await _context.Clients.Groups(game).NotifyPlayerLeft(playerID);
+            }
+
+
+        }
+
+        public async Task removeGame(string game)
+        {
+            if (_games.TryRemove(game, out _))
+            {
+                await _context.Clients.All.RemoveGame(game);
+            }
+
+        }
+
+        public string findPlayer(string playerID)
+        {
+            foreach (var kv in _games)
+            {
+                if (kv.Value.players.ContainsKey(playerID))
+                {
+                    Console.WriteLine($"found player {playerID} in game {kv.Key}");
+                    return kv.Key;
+                }
+            }
+            return string.Empty;
         }
 
         public bool checkGameExists(string gameName)
@@ -60,10 +97,13 @@ namespace SignalRGame
             Console.WriteLine($"{playerID} wants to join {gameName}");
             Console.WriteLine($"current players: {_games[gameName].GetPlayerCount()}");
 
+            //should validate that player is not in any other games
+
+
             return _games[gameName].AddPlayer(playerID);
         }
 
-        public async void StartGame(string gameName)
+        public void StartGame(string gameName)
         {
 
             if (!_games.ContainsKey(gameName))
@@ -71,13 +111,16 @@ namespace SignalRGame
 
             //insert more validation logic if needed
 
+            //check (at least) two players are in game
+            //check game is not already started
+
 
             _games[gameName].OnSendState = OnStateChanged;
 
             async void OnStateChanged(FighterJet[] jets)
             {
                 GameState state = new GameState(jets);
-                Console.WriteLine($"GameService: game: {gameName}, jet0: {jets[0].X}, {jets[0].Y}");
+                //Console.WriteLine($"GameService: game: {gameName}, jet0: {jets[0].X}, {jets[0].Y}");
                 await _context.Clients.Groups(gameName).ReceiveGameState(state);
             }
 

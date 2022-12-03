@@ -18,9 +18,9 @@ namespace SignalRGame.GameLogic
             players = new ConcurrentDictionary<string, FighterJet>();
         }
 
-        public FighterJet AddJet(float x, float y, float angle)
+        public FighterJet AddJet(float x, float y, float angle, int jetID)
         {
-            var jet = new FighterJet(x, y, angle);
+            var jet = new FighterJet(x, y, angle, jetID);
 
             jets.Add(jet);
 
@@ -39,13 +39,13 @@ namespace SignalRGame.GameLogic
 
             if (players.Count == 0)
             {
-                FighterJet jet = AddJet(100, 100, 1.57f);
+                FighterJet jet = AddJet(100, 100, 1.57f, 1);
                 players.TryAdd(playerID, jet);
 
                 return true;
             } else if (players.Count == 1)
             {
-                FighterJet jet = AddJet(900, 900, 4.71f);
+                FighterJet jet = AddJet(900, 900, 4.71f, 2);
                 players.TryAdd(playerID, jet);
                 return true;
             } else

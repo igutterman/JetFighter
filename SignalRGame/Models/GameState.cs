@@ -15,7 +15,7 @@ namespace SignalRGame.Models
             Jets = jets;
         }
 
-
+        //delete after testing?
         public GameState()
         {
 
@@ -56,7 +56,7 @@ namespace SignalRGame.Models
                 Y = random.Next(0, 1001),
                 Angle = (float)random.NextDouble() * ((MathF.PI) - -(MathF.PI)) + -MathF.PI,
                 Velocity = 0.5f,
-                playerID = "one",
+                jetID = 1,
                 
 
             };
@@ -68,7 +68,7 @@ namespace SignalRGame.Models
                 Y = random.Next(0, 1001),
                 Angle = (float)random.NextDouble() * ((MathF.PI) - -(MathF.PI)) + -MathF.PI,
                 Velocity = 0.5f,
-                playerID = "two",
+                jetID = 2,
 
             };
 

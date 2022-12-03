@@ -43,14 +43,20 @@ var ctx = canvas.getContext('2d');
 var mig = new Image(109, 150);
 mig.src = "images/mig.svg";
 
+var f16 = new Image(113, 150);
+f16.src = "images/f16.svg";
+
+
 
 function getDummyState() {
     connection.invoke("SendDummyState");
 }
 
 connection.on("ReceiveGameState", function (state) {
-    console.log(state);
+    //console.log(state);
     gameState = state;
+    //console.log(gameState.jets.length);
+    drawState(gameState);
 });
 
 function startGame() {
@@ -63,15 +69,26 @@ function startGame() {
     connection.invoke("StartGame", game);
 }
 
+connection.on("NotifyPlayerLeft", function (playerID) {
+    alert("player left");
+})
+
 
 function drawState(state) {
 
+    ctx.fillStyle = "DeepSkyBlue";
+    ctx.fillRect(0, 0, 1000, 1000);
+    console.log(state);
+    console.log(state.jets.length);
+
     for (let i = 0; i < state.jets.length; i++) {
-        eval('var jet' + i + ' =  state.jets[i]');
+        //eval('var jet' + i + ' =  state.jets[i]');
 
         let jet = state.jets[i];
+        drawFour(jet);
 
     }
+    //requestAnimationFrame(drawState);
 
 }
 
@@ -86,15 +103,21 @@ function drawRotated(img, x, y, angle) {
 }
 
 
-function drawFour(player, x, y, angle) {
+function drawFour(jet) {
 
     let img;
 
-    if (player === 1) {
+    if (jet.jetID === 1) {
         img = mig;
+    } else if (jet.jetID === 2) {
+        img = f16;
     }
 
-    //add else for player 2 and NATO svg
+
+
+    let x = jet.X;
+    let y = jet.Y;
+    let angle = jet.Angle;
 
     let x1, y1;
 
