@@ -11,6 +11,12 @@
         {
         }
 
+
+        //added to use object initializer for sending dummy data to client
+        public Bullet()
+        {
+        }
+
         public override void Update(float elapsedTime)
         {
             lifetime += elapsedTime;

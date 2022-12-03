@@ -1,13 +1,29 @@
-//using SignalRGame.Hubs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using SignalRGame;
+using SignalRGame.Hubs;
 
 //var builder = WebApplication.CreateBuilder(args);
-
 
 //// Add services to the container.
 //builder.Services.AddRazorPages();
 //builder.Services.AddSignalR();
 
+//builder.Services.AddSpaStaticFiles(configuration =>
+//{
+//    configuration.RootPath = "../reactProject1/build";
+//});
 
+////needed?
+////builder.Services.AddSingleton<IHubContext<ChatHub, IChatClient>>();
+//builder.Services.AddSingleton<GameService>();
 
 //var app = builder.Build();
 
@@ -26,19 +42,27 @@
 
 //app.UseAuthorization();
 
-//app.MapRazorPages();
-//app.MapHub<ChatHub>("/chatHub");
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapHub<ChatHub>("/chatHub");
+//    endpoints.MapGet("/debug/routes", (IEnumerable<EndpointDataSource> endpointSources) =>
+//       string.Join("\n", endpointSources.SelectMany(source => source.Endpoints)));
+//    endpoints.MapRazorPages();
+//});
+
+//app.UseSpa(spa =>
+//{
+//    spa.Options.SourcePath = "../reactProject1";
+
+
+//    if (app.Environment.IsDevelopment())
+//    {
+//        spa.UseReactDevelopmentServer(npmScript: "start");
+//    }
+//});
 
 //app.Run();
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace SignalRGame
 {

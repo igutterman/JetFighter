@@ -1,5 +1,6 @@
 ﻿using SignalRGame.Models;
 using System.Collections.Concurrent;
+using SignalRGame.GameLogic;
 
 namespace SignalRGame.Clients
 {
@@ -10,9 +11,12 @@ namespace SignalRGame.Clients
 
         Task ReceiveGroupMessage(string user, string message, string group);
 
-        Task AddRoom(string roomName);
+        Task ReceiveAddToGameResponse(string response, bool success, string gameName);
 
-        Task ReceiveRoomsList(ConcurrentDictionary<string, List<string>> roomsList);
+        Task AddGame(string gameName);
+
+        //returns dictionary of game names and connected playerIDs
+        Task ReceiveGamesList(Dictionary<string, List<string>> gamesList);
 
 
         Task RemoveRoom(string roomName);
@@ -20,5 +24,11 @@ namespace SignalRGame.Clients
         Task ReceiveTurn(char c, int row, int col);
 
         Task ReceiveWin(char c);
+
+        //Task ReceiveJetFighter(FighterJet jet);
+
+        Task ReceiveGameState(GameState state);
+
+        Task AddPlayerToGame(string roomName);
     }
 }

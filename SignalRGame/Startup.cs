@@ -27,6 +27,8 @@ namespace SignalRGame
             services.AddSignalR();
             services.AddRazorPages();
 
+            services.AddSingleton<GameService>();
+
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -34,13 +36,13 @@ namespace SignalRGame
             });
 
 
-            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
-            {
-                builder
-                   .AllowAnyMethod()
-                   .AllowAnyHeader()
-                   .WithOrigins("*");
-            }));
+            //services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            //{
+            //    builder
+            //       .AllowAnyMethod()
+            //       .AllowAnyHeader()
+            //       .WithOrigins("*");
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,8 +69,10 @@ namespace SignalRGame
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapGet("/debug/routes", (IEnumerable<EndpointDataSource> endpointSources) =>
+                   string.Join("\n", endpointSources.SelectMany(source => source.Endpoints)));
+                endpoints.MapRazorPages();
             });
 
             app.UseSpa(spa =>

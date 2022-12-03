@@ -1,10 +1,9 @@
 ﻿@page
 
-@using Microsoft.AspNetCore.Antiforgery;
-@inject IAntiforgery AntiForgery;
 
 
-    <div class="container">
+<div class="Container">
+    <div id="ServerListContainer">
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-2">User</div>
@@ -52,7 +51,18 @@
 
 
 
+
     </div>
+
+
+    <div id="GameContainer">
+        <span>canvas</span>
+        <span><canvas id="gameCanvas" width="1000" height="1000" style="border: 1px solid #000000;"></canvas></span>
+    </div>
+</div>
+
 <script src="~/js/signalr/dist/browser/signalr.js"></script>
-<script src="~/js/chat.js"></script>
+<script src="~/js/chat.js" asp-append-version="true"></script>
+<script src="~/js/game.js" asp-append-version="true"></script>
+
 
