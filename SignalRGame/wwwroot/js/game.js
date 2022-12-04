@@ -46,7 +46,12 @@ mig.src = "images/mig.svg";
 var f16 = new Image(113, 150);
 f16.src = "images/f16.svg";
 
+var bullet = new Image(15, 15);
+bullet.src = "images/bullet.svg";
+
 var animationStarted = false;
+
+var keysMap = {};
 
 function getDummyState() {
     connection.invoke("SendDummyState");
@@ -72,16 +77,51 @@ document.addEventListener("keydown", (event) => {
     }
 
     if (event.keyCode === 65 || event.keyCode === 37) {
-        connection.invoke("TurnLeft", game);
+        //connection.invoke("TurnLeft", game);
+        keysMap["left"] = true;
     }
 
     if (event.keyCode === 68 || event.keyCode === 39) {
-        connection.invoke("TurnRight", game);
+        keysMap["right"] = true;
+        //connection.invoke("TurnRight", game);
     }
 
     if (event.keyCode === 32) {
+        keysMap["shoot"] = true;
+        //connection.invoke("Shoot", game);
+    }
+
+    if (keysMap["left"] === true) {
+        connection.invoke("TurnLeft", game);
+    }
+    if (keysMap["right"] === true) {
+        connection.invoke("TurnRight", game);
+    }
+    if (keysMap["shoot"] === true) {
         connection.invoke("Shoot", game);
     }
+
+})
+
+document.addEventListener("keyup", (event) => {
+
+    if (!animationStarted) {
+        return;
+    }
+
+    if (event.keyCode === 65 || event.keyCode === 37) {
+        keysMap["left"] = false;
+    }
+
+    if (event.keyCode === 68 || event.keyCode === 39) {
+        keysMap["right"] = false;
+    }
+
+    if (event.keyCode === 32) {
+        keysMap["shoot"] = false;
+    }
+    
+
 })
 
 
@@ -112,7 +152,7 @@ function drawState(state) {
     ctx.clearRect(0, 0, 1000, 1000);
     ctx.fillStyle = "rgba(0, 191, 255, 0.95)";
     ctx.fillRect(0, 0, 1000, 1000);
-    console.log(state);
+    //console.log(state);
 
 
 
@@ -121,8 +161,9 @@ function drawState(state) {
 
 
         let jet = state.jets[i];
-        console.log(jet);
+        //console.log(jet);
         drawFour(jet);
+        drawBullets(jet);
 
     }
     //requestAnimationFrame(drawState);
@@ -142,7 +183,7 @@ function drawRotated(img, x, y, angle) {
 
 function drawFour(jet) {
 
-    console.log("drawfour called");
+    //console.log("drawfour called");
 
     let img;
 
@@ -163,14 +204,7 @@ function drawFour(jet) {
         angle -= 2 * Math.PI;
     }
 
-    console.log("jet.X: " + jet.x);
-    console.log("x: " + x);
 
-    console.log("jet.Y: " + jet.y);
-    console.log("y: " + y);
-
-    console.log("jet.Angle: " + jet.angle);
-    console.log("angle: " + angle);
 
     let x1, y1;
 
@@ -190,5 +224,16 @@ function drawFour(jet) {
     drawRotated(img, x1, y1, angle);
     drawRotated(img, x1, y, angle);
     drawRotated(img, x, y1, angle);
+
+}
+
+function drawBullets(jet) {
+
+    let img = bullet;
+
+    for (let i = 0; i < jet.bullets.length; i++) {
+        drawRotated(img, jet.bullets[i].x, jet.bullets[i].y, jet.bullets[i].angle);
+    }
+
 
 }

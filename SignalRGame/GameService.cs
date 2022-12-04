@@ -144,6 +144,11 @@ namespace SignalRGame
             _games[game].players[connectionID].Angle += 0.025f;
         }
 
+        public void Shoot(string connectionID, string game)
+        {
+            _games[game].players[connectionID].FireBullet();
+        }
+
 
 
 
