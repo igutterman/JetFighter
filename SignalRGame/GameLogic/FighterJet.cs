@@ -13,7 +13,7 @@ namespace SignalRGame.GameLogic
         public int jetID { get; set; }
         public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
         public FighterJet(float x, float y, float angle, int jetID)
-            : base(x, y, angle, 0.5f)
+            : base(x, y, angle, 0.75f)
         {
             Bullets = new List<Bullet>();
 

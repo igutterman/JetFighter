@@ -46,7 +46,7 @@ mig.src = "images/mig.svg";
 var f16 = new Image(113, 150);
 f16.src = "images/f16.svg";
 
-
+var animationStarted = false;
 
 function getDummyState() {
     connection.invoke("SendDummyState");
@@ -56,8 +56,17 @@ connection.on("ReceiveGameState", function (state) {
     //console.log(state);
     gameState = state;
     //console.log(gameState.jets.length);
-    drawState(gameState);
+    //drawState(gameState);
+    if (!animationStarted) {
+        console.log("here");
+        draw();
+        animationStarted = true;
+    }
+    
 });
+
+
+
 
 function startGame() {
 
@@ -73,10 +82,17 @@ connection.on("NotifyPlayerLeft", function (playerID) {
     alert("player left");
 })
 
+var fps = 60;
+function draw() {
+    setTimeout(function () {
+        requestAnimationFrame(draw);
+        drawState(gameState);
+    }, 1000 / fps); 
+}
 
 function drawState(state) {
     ctx.clearRect(0, 0, 1000, 1000);
-    ctx.fillStyle = "DeepSkyBlue";
+    ctx.fillStyle = "rgba(0, 191, 255, 0.95)";
     ctx.fillRect(0, 0, 1000, 1000);
     console.log(state);
 
@@ -91,7 +107,7 @@ function drawState(state) {
         drawFour(jet);
 
     }
-    //window.requestAnimationFrame(drawState());
+    //requestAnimationFrame(drawState);
 
 }
 
@@ -123,6 +139,11 @@ function drawFour(jet) {
     let x = jet.x;
     let y = jet.y;
     let angle = jet.angle;
+
+    angle += Math.PI / 2;
+    if (angle > Math.PI) {
+        angle -= 2 * Math.PI;
+    }
 
     console.log("jet.X: " + jet.x);
     console.log("x: " + x);
