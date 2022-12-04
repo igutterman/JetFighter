@@ -266,6 +266,16 @@ namespace SignalRGame.Hubs
 
         }
 
+        public void TurnLeft(string gameName)
+        {
+            _gameService.TurnLeft(Context.ConnectionId, gameName);
+        }
+
+        public void TurnRight(string gameName)
+        {
+            _gameService.TurnRight(Context.ConnectionId, gameName);
+        }
+
 
 
 

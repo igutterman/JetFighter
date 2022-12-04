@@ -65,6 +65,24 @@ connection.on("ReceiveGameState", function (state) {
     
 });
 
+document.addEventListener("keydown", (event) => {
+
+    if (!animationStarted) {
+        return;
+    }
+
+    if (event.keyCode === 65 || event.keyCode === 37) {
+        connection.invoke("TurnLeft", game);
+    }
+
+    if (event.keyCode === 68 || event.keyCode === 39) {
+        connection.invoke("TurnRight", game);
+    }
+
+    if (event.keyCode === 32) {
+        connection.invoke("Shoot", game);
+    }
+})
 
 
 
@@ -82,7 +100,7 @@ connection.on("NotifyPlayerLeft", function (playerID) {
     alert("player left");
 })
 
-var fps = 60;
+var fps = 100;
 function draw() {
     setTimeout(function () {
         requestAnimationFrame(draw);
