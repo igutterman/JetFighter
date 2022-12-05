@@ -60,44 +60,6 @@ function RemoveFromGamesList(gameName) {
 }
 
 
-//think this was from when all chat rooms were on one page, if so can be deleted
-function AddChatRoom(roomName) {
-
-    let chatRooms = document.getElementById("ChatRooms");
-
-    let chatRoom = document.createElement("div");
-    chatRooms.appendChild(chatRoom);
-    let textSpan = document.createElement("span");
-    chatRoom.appendChild(textSpan);
-    textSpan.textContent = "Room: " + roomName;
-    chatRoom.className = roomName + "ChatRoom";
-    let msgList = document.createElement("ul");
-    chatRoom.appendChild(msgList);
-    msgList.id = roomName;
-
-    let input = document.createElement("input");
-    input.type = "text";
-    input.className = "col-4";
-    input.id = roomName + "input";
-
-    chatRoom.appendChild(input);
-
-    let button = document.createElement("button");
-    button.textContent = "Send Message To Room";
-    button.className = "RoomMessageButton";
-    button.value = roomName;
-    button.onclick = function () {
-        let room = button.value;
-        let message = document.getElementById(roomName + "input").value;
-        connection.invoke("SendMessageToGroup", message, room).catch(function (err) {
-            return console.error(err.toString());
-        });
-        event.preventDefault();
-    }
-
-    chatRoom.appendChild(button);
-
-}
 
 connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
@@ -173,13 +135,3 @@ function BuildGamesList() {
 
 
 }
-
-function GetJetFighter() {
-    connection.invoke("SendJetFighter").catch(function (err) {
-        return console.error(err.toString());
-    });
-}
-
-connection.on("ReceiveJetFighter", function (jet) {
-    console.log(jet);
-});
