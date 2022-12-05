@@ -21,13 +21,21 @@ namespace SignalRGame.GameLogic
             this.jetID = jetID;
         }
 
+        private DateTime LastBulletFired { get; set; } = DateTime.Now;
+
         //added to use object initializer for sending dummy data to client
         public FighterJet() : base () { }
 
 
         public void FireBullet()
         {
-            Bullets.Add(new Bullet(X, Y, Angle));
+
+            if (DateTime.Now >= LastBulletFired.AddMilliseconds(150))
+            {
+                Bullets.Add(new Bullet(X, Y, Angle));
+                LastBulletFired = DateTime.Now;
+            }
+            
         }
 
 
