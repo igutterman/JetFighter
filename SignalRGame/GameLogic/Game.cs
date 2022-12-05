@@ -75,7 +75,7 @@ namespace SignalRGame.GameLogic
             t.Start(cts.Token);
         }
 
-        private const double preferredTickPeriod = 40;
+        private const double preferredTickPeriod = 20;
 
         private void GameThread(object e)
         {

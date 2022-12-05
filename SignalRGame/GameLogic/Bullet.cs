@@ -2,10 +2,10 @@
 {
     public class Bullet : GameObject
     {
-        private const float bulletVelocity = 1;
+        private const float bulletVelocity = 2;
 
         private float lifetime = 0;
-        private float totalLifetime = 1000;
+        private float totalLifetime = 3000;
 
         public Bullet(float x, float y, float angle) : base(x, y, angle, bulletVelocity)
         {

@@ -134,6 +134,21 @@ namespace SignalRGame
             await _context.Clients.All.ReceiveMessage("Pepe", "Hi");
         }
 
+        public void TurnLeft(string connectionID, string game)
+        {
+            _games[game].players[connectionID].Angle -= 0.035f;
+        }
+
+        public void TurnRight(string connectionID, string game)
+        {
+            _games[game].players[connectionID].Angle += 0.035f;
+        }
+
+        public void Shoot(string connectionID, string game)
+        {
+            _games[game].players[connectionID].FireBullet();
+        }
+
 
 
 
