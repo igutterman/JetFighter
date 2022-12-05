@@ -117,6 +117,15 @@ namespace SignalRGame.GameLogic
             return false;
         }
 
+        private float _health  = 100;
+        public float Health { get { return _health; } }
+
+        public void TakesDamage(float damage)
+        {
+            _health -= damage;
+
+            if (_health < 0) MarkForDeletion = true;
+        }
 
     }
 }

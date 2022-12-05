@@ -112,10 +112,9 @@ namespace SignalRGame.GameLogic
                         {
                             if (jet.CollidesWith(bullet))
                             {
-                                System.Diagnostics.Debug.WriteLine("collision");
-                                ;
-                                // mark jet as hit by jetOther
-                                // something else will have to clean up the jets
+                                //System.Diagnostics.Debug.WriteLine("collision");
+                                jet.MarkForDeletion = true;
+                                jet.TakesDamage(10);
                             }
                         }
                     }
