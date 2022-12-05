@@ -1,5 +1,5 @@
 ﻿using SignalRGame.GameLogic.Physics;
-
+using System.Collections.Concurrent;
 using System.Text.Json.Serialization;
 
 
@@ -11,11 +11,11 @@ namespace SignalRGame.GameLogic
         //public string playerID { get; set; }
 
         public int jetID { get; set; }
-        public List<Bullet> Bullets { get; private set; } = new List<Bullet>();
+        public ConcurrentBag<Bullet> Bullets { get; private set; } = new ConcurrentBag<Bullet>();
         public FighterJet(float x, float y, float angle, int jetID)
             : base(x, y, angle, 1.0f)
         {
-            Bullets = new List<Bullet>();
+            Bullets = new ConcurrentBag<Bullet>();
 
             Hitboxes.Add(new Rectangle(X, Y, 10, 10, angle));
             this.jetID = jetID;
@@ -46,7 +46,7 @@ namespace SignalRGame.GameLogic
         public override void Clean()
         {
             // Remove bullets marked for deletion.
-            var newBullets = new List<Bullet>();
+            var newBullets = new ConcurrentBag<Bullet>();
             foreach (Bullet bullet in Bullets)
             {
                 if (!bullet.MarkForDeletion)

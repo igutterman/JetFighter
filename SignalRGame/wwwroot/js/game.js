@@ -199,6 +199,22 @@ function drawFour(jet) {
     let y = jet.y;
     let angle = jet.angle;
 
+    //round x and y to get rid of decimals
+    roundedx = (0.5 + x) | 0;
+    roundedx = ~~(0.5 + x);
+    roundedx = (0.5 + x) << 0;
+    x = roundedx;
+
+    roundedy = (0.5 + y) | 0;
+    roundedy = ~~(0.5 + y);
+    roundedy = (0.5 + y) << 0;
+    y = roundedy;
+
+    console.log(x);
+    console.log(y);
+
+
+    //On server 0 angle points 90 degrees right, so we have to rotate the plane for display
     angle += Math.PI / 2;
     if (angle > Math.PI) {
         angle -= 2 * Math.PI;
@@ -232,7 +248,26 @@ function drawBullets(jet) {
     let img = bullet;
 
     for (let i = 0; i < jet.bullets.length; i++) {
-        drawRotated(img, jet.bullets[i].x, jet.bullets[i].y, jet.bullets[i].angle);
+
+        let x = jet.bullets[i].x;
+        let y = jet.bullets[i].y;
+        let angle = jet.bullets[i].angle;
+
+        //round x and y to get rid of decimals
+        roundedx = (0.5 + x) | 0;
+        roundedx = ~~(0.5 + x);
+        roundedx = (0.5 + x) << 0;
+        x = roundedx;
+
+        roundedy = (0.5 + y) | 0;
+        roundedy = ~~(0.5 + y);
+        roundedy = (0.5 + y) << 0;
+        y = roundedy;
+
+
+
+
+        drawRotated(img, x, y, angle);
     }
 
 
