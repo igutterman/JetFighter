@@ -117,11 +117,11 @@ namespace SignalRGame
 
             _games[gameName].OnSendState = OnStateChanged;
 
-            async void OnStateChanged(FighterJet[] jets)
+            void OnStateChanged(FighterJet[] jets)
             {
                 GameState state = new GameState(jets);
                 //Console.WriteLine($"GameService: game: {gameName}, jet0: {jets[0].X}, {jets[0].Y}");
-                await _context.Clients.Groups(gameName).ReceiveGameState(state);
+                _context.Clients.Groups(gameName).ReceiveGameState(state);
             }
 
             _games[gameName].Start();

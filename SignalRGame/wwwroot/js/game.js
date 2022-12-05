@@ -57,6 +57,29 @@ function getDummyState() {
     connection.invoke("SendDummyState");
 }
 
+
+function sendKeys() {
+
+    if (keysMap["left"] === true) {
+        connection.invoke("TurnLeft", game);
+    }
+    if (keysMap["right"] === true) {
+        connection.invoke("TurnRight", game);
+    }
+    if (keysMap["shoot"] === true) {
+        connection.invoke("Shoot", game);
+    }
+
+}
+
+window.setInterval(function () {
+    if (animationStarted) {
+        sendKeys();
+    }
+
+}, 40);
+
+
 connection.on("ReceiveGameState", function (state) {
     //console.log(state);
     gameState = state;
@@ -91,15 +114,15 @@ document.addEventListener("keydown", (event) => {
         //connection.invoke("Shoot", game);
     }
 
-    if (keysMap["left"] === true) {
-        connection.invoke("TurnLeft", game);
-    }
-    if (keysMap["right"] === true) {
-        connection.invoke("TurnRight", game);
-    }
-    if (keysMap["shoot"] === true) {
-        connection.invoke("Shoot", game);
-    }
+    //if (keysMap["left"] === true) {
+    //    connection.invoke("TurnLeft", game);
+    //}
+    //if (keysMap["right"] === true) {
+    //    connection.invoke("TurnRight", game);
+    //}
+    //if (keysMap["shoot"] === true) {
+    //    connection.invoke("Shoot", game);
+    //}
 
 })
 
@@ -157,16 +180,16 @@ function drawState(state) {
 
 
     for (let i = 0; i < state.jets.length; i++) {
-        //eval('var jet' + i + ' =  state.jets[i]');
+
 
 
         let jet = state.jets[i];
-        //console.log(jet);
+
         drawFour(jet);
         drawBullets(jet);
 
     }
-    //requestAnimationFrame(drawState);
+
 
 }
 
