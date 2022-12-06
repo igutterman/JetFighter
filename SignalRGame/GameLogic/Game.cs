@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using Microsoft.Extensions.Options;
+using System.Collections.Concurrent;
 using System.Diagnostics;
 
 namespace SignalRGame.GameLogic
@@ -11,16 +12,23 @@ namespace SignalRGame.GameLogic
 
         public ConcurrentDictionary<string, FighterJet> players;
 
-        public Game()
+        public GameConfigOptions options;
+
+
+
+
+        public Game(GameConfigOptions Options)
         {
             cts = new CancellationTokenSource();
             jets = new ConcurrentBag<FighterJet>();
             players = new ConcurrentDictionary<string, FighterJet>();
+            options = Options;
+
         }
 
-        public FighterJet AddJet(float x, float y, float angle, int jetID)
+        public FighterJet AddJet(float x, float y, float angle, int jetID, GameConfigOptions options)
         {
-            var jet = new FighterJet(x, y, angle, jetID);
+            var jet = new FighterJet(x, y, angle, jetID, options);
 
             jets.Add(jet);
 
@@ -39,13 +47,13 @@ namespace SignalRGame.GameLogic
 
             if (players.Count == 0)
             {
-                FighterJet jet = AddJet(100, 100, 1.57f, 1);
+                FighterJet jet = AddJet(100, 100, 1.57f, 1, options);
                 players.TryAdd(playerID, jet);
 
                 return true;
             } else if (players.Count == 1)
             {
-                FighterJet jet = AddJet(900, 900, 4.71f, 2);
+                FighterJet jet = AddJet(900, 900, 4.71f, 2, options);
                 players.TryAdd(playerID, jet);
                 return true;
             } else

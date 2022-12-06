@@ -7,7 +7,8 @@
         private float lifetime = 0;
         private float totalLifetime = 3000;
 
-        public Bullet(float x, float y, float angle) : base(x, y, angle, bulletVelocity)
+        //bulletVelocity should come from options
+        public Bullet(float x, float y, float angle, GameConfigOptions options) : base(x, y, angle, options.jetSpeed, options)
         {
         }
 

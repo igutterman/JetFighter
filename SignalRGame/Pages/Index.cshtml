@@ -47,16 +47,33 @@
     </form>
 
 
-    <div class="ChatRooms" id="ChatRooms">
+    <div class="GameSettings" id="GameSettings">
+        
+        <label for="gameSpeedInput">Game Speed</label>
+        <input name="GameSpeed" type="text" id="gameSpeedInput" />
 
+        <label for="jetSpeedInput">Jet Speed</label>
+        <input name="JetSpeed" type="text" id="jetSpeedInput" />
 
+        <label for="bulletSpeedInput">Bullet Speed</label>
+        <input name="bulletSpeed" type="text" id="bulletSpeedInput" />
 
+        <label for="bulletLifetimeInput">Bullet Lifetime</label>
+        <input name="bulletLifetime" type="text" id="bulletLifetimeInput" />
+
+        <label for="turnSpeedInput">Turn Speed</label>
+        <input name="turnSpeed" type="text" id="turnSpeedInput" />
+
+        <label for="sendSettingsButton">Send Settings</label>
+        <input name="sendSettingsButton" type="button" id="sendSettingsButton" />
+
+        <label for="startGameButton">Start Game</label>
+        <input name="startGameButton" type="button" id="startGameButton" />
 
     </div>
 
 
-    <div id="GameContainer">
-        <span>canvas</span>
+    <div id="GameContainer" style="padding-top: 100px">
         <span><canvas id="gameCanvas" width="1000" height="1000" style="border: 1px solid #000000;"></canvas></span>
     </div>
 </div>

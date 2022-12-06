@@ -60,44 +60,57 @@ function RemoveFromGamesList(gameName) {
 }
 
 
-//think this was from when all chat rooms were on one page, if so can be deleted
-function AddChatRoom(roomName) {
+function getSettingsValues() {
+    connection.invoke("PassSettingsValues");
+}
 
-    let chatRooms = document.getElementById("ChatRooms");
+connection.on("ReceiveSettingsValues", function (gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed) {
+    let gameSpeedInput = document.getElementById("gameSpeedInput");
+    let jetSpeedInput = document.getElementById("jetSpeedInput");
+    let bulletSpeedInput = document.getElementById("bulletSpeedInput");
+    let bulletLifetimeInput = document.getElementById("bulletLifetimeInput");
+    let turnSpeedInput = document.getElementById("turnSpeedInput");
 
-    let chatRoom = document.createElement("div");
-    chatRooms.appendChild(chatRoom);
-    let textSpan = document.createElement("span");
-    chatRoom.appendChild(textSpan);
-    textSpan.textContent = "Room: " + roomName;
-    chatRoom.className = roomName + "ChatRoom";
-    let msgList = document.createElement("ul");
-    chatRoom.appendChild(msgList);
-    msgList.id = roomName;
+    gameSpeedInput.value = gameSpeed;
+    jetSpeedInput.value = jetSpeed;
+    bulletSpeedInput.value = bulletSpeed;
+    bulletLifetimeInput.value = bulletLifetime;
+    turnSpeedInput.value = turnSpeed;
+})
 
-    let input = document.createElement("input");
-    input.type = "text";
-    input.className = "col-4";
-    input.id = roomName + "input";
+function sendSettingsValues() {
+    let gameSpeed = document.getElementById("gameSpeedInput").value;
+    let jetSpeed = document.getElementById("jetSpeedInput").value;
+    let bulletSpeed = document.getElementById("bulletSpeedInput").value;
+    let bulletLifetime = document.getElementById("bulletLifetimeInput").value;
+    let turnSpeed = document.getElementById("turnSpeedInput").value;
 
-    chatRoom.appendChild(input);
-
-    let button = document.createElement("button");
-    button.textContent = "Send Message To Room";
-    button.className = "RoomMessageButton";
-    button.value = roomName;
-    button.onclick = function () {
-        let room = button.value;
-        let message = document.getElementById(roomName + "input").value;
-        connection.invoke("SendMessageToGroup", message, room).catch(function (err) {
-            return console.error(err.toString());
-        });
-        event.preventDefault();
-    }
-
-    chatRoom.appendChild(button);
+    connection.invoke("ClientSetSettings", gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
 
 }
+
+
+
+document.getElementById("sendSettingsButton").addEventListener("click", function () {
+    sendSettingsValues();
+})
+
+
+
+
+//delete after testing
+function SetJetSpeed(value) {
+    connection.invoke("SetJetSpeed", value);
+}
+
+function GetJetSpeed() {
+    connection.invoke("GetJetSpeed");
+}
+
+
 
 connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
@@ -122,6 +135,7 @@ connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 
     BuildGamesList();
+    getSettingsValues();
 }).catch(function (err) {
     return console.error(err.toString());
 });
@@ -173,13 +187,3 @@ function BuildGamesList() {
 
 
 }
-
-function GetJetFighter() {
-    connection.invoke("SendJetFighter").catch(function (err) {
-        return console.error(err.toString());
-    });
-}
-
-connection.on("ReceiveJetFighter", function (jet) {
-    console.log(jet);
-});

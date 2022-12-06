@@ -12,14 +12,20 @@ namespace SignalRGame.GameLogic
 
         public int jetID { get; set; }
         public ConcurrentBag<Bullet> Bullets { get; private set; } = new ConcurrentBag<Bullet>();
-        public FighterJet(float x, float y, float angle, int jetID)
-            : base(x, y, angle, 1.0f)
+
+        public GameConfigOptions options;
+
+        public FighterJet(float x, float y, float angle, int jetID, GameConfigOptions Options)
+            : base(x, y, angle, Options.jetSpeed, Options)
         {
             Bullets = new ConcurrentBag<Bullet>();
 
             Hitboxes.Add(new Rectangle(X, Y, 10, 10, angle));
             this.jetID = jetID;
+            options = Options;
         }
+
+        private DateTime LastBulletFired { get; set; } = DateTime.Now;
 
         //added to use object initializer for sending dummy data to client
         public FighterJet() : base () { }
@@ -27,7 +33,13 @@ namespace SignalRGame.GameLogic
 
         public void FireBullet()
         {
-            Bullets.Add(new Bullet(X, Y, Angle));
+
+            if (DateTime.Now >= LastBulletFired.AddMilliseconds(150))
+            {
+                Bullets.Add(new Bullet(X, Y, Angle, options));
+                LastBulletFired = DateTime.Now;
+            }
+            
         }
 
 

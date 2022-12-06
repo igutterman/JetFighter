@@ -4,6 +4,7 @@ using SignalRGame.Clients;
 using SignalRGame.GameLogic;
 using System.Collections.Concurrent;
 using SignalRGame.Models;
+using Microsoft.Extensions.Options;
 
 namespace SignalRGame
 {
@@ -12,13 +13,23 @@ namespace SignalRGame
 
         private readonly IHubContext<ChatHub, IChatClient> _context;
 
+        private readonly IConfiguration Configuration;
+
         //maps group name to game instance
         private readonly ConcurrentDictionary<string, Game> _games;
 
-        public GameService(IHubContext<ChatHub, IChatClient> context)
+        private GameConfigOptions _options;
+
+        public GameService(IHubContext<ChatHub, IChatClient> context, IOptions<GameConfigOptions> options)
         {
             _games = new ConcurrentDictionary<string, Game>();
             _context = context;
+            //Configuration = configuration;
+
+            //options = Configuration.Get<GameConfigOptions>();
+
+            _options = options.Value;
+
         }
 
         public int getPlayerCount(string game)
@@ -77,7 +88,7 @@ namespace SignalRGame
 
         public void createGame(string gameName)
         {
-            _games.TryAdd(gameName, new Game());
+            _games.TryAdd(gameName, new Game(_options));
         }
 
         public Dictionary<string, List<string>> getGamesList()
@@ -147,6 +158,30 @@ namespace SignalRGame
         public void Shoot(string connectionID, string game)
         {
             _games[game].players[connectionID].FireBullet();
+        }
+
+        public void GetJetSpeed()
+        {
+            Console.WriteLine("getjetspeed");
+            Console.WriteLine(_options.jetSpeed);
+        }
+
+        public void SetJetSpeed(float value)
+        {
+            _options.jetSpeed = value;
+            Console.WriteLine($"set jet speed to {value}");
+            GetJetSpeed();
+        }
+
+        public GameConfigOptions getOptions()
+        {
+            return _options;
+        }
+
+        public void SetOptions(GameConfigOptions options)
+        {
+            _options = options;
+            Console.WriteLine(_options.jetSpeed);
         }
 
 

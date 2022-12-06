@@ -281,7 +281,47 @@ namespace SignalRGame.Hubs
             _gameService.Shoot(Context.ConnectionId, gameName);
         }
 
+        public void SetJetSpeed(float value)
+        {
+            _gameService.SetJetSpeed(value);
+        }
 
+        public void GetJetSpeed()
+        {
+            _gameService.GetJetSpeed();
+        }
+
+
+        public async Task PassSettingsValues()
+        {
+            var o = _gameService.getOptions();
+
+            await Clients.All.ReceiveSettingsValues(o.gameSpeed, o.jetSpeed, o.bulletSpeed, o.bulletLifetime, o.turnSpeed);
+        }
+
+        public void ClientSetSettings(string gameSpeed, string jetSpeed, string bulletSpeed, string bulletLifetime, string turnSpeed)
+        {
+
+            float GameSpeed = float.Parse(gameSpeed);
+            float JetSpeed = float.Parse(jetSpeed);
+            float BulletSpeed = float.Parse(bulletSpeed);
+            int BulletLifetime = int.Parse(bulletLifetime);
+            float TurnSpeed = float.Parse(turnSpeed);
+
+            Console.WriteLine(gameSpeed);
+
+            GameConfigOptions o = new GameConfigOptions();
+            
+            
+            o.gameSpeed = GameSpeed;
+            o.jetSpeed = JetSpeed;
+            o.bulletSpeed = BulletSpeed;
+            o.bulletLifetime = BulletLifetime;
+            o.turnSpeed = TurnSpeed;
+
+            _gameService.SetOptions(o);
+
+        }
 
 
 
