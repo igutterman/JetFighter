@@ -147,12 +147,12 @@ namespace SignalRGame
 
         public void TurnLeft(string connectionID, string game)
         {
-            _games[game].players[connectionID].Angle -= 0.035f;
+            _games[game].players[connectionID].Angle -= _options.turnSpeed;
         }
 
         public void TurnRight(string connectionID, string game)
         {
-            _games[game].players[connectionID].Angle += 0.035f;
+            _games[game].players[connectionID].Angle += _options.turnSpeed;
         }
 
         public void Shoot(string connectionID, string game)
