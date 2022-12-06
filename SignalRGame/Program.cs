@@ -2,6 +2,7 @@ using SignalRGame;
 using SignalRGame.Hubs;
 using SignalRGame.Clients;
 using Microsoft.AspNetCore.SignalR;
+using SignalRGame.GameLogic;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
+//builder.Services.AddOptions<GameConfigOptions>()
+//    .Bind(builder.Configuration.GetSection(GameConfigOptions.GameConfig));
+
+builder.Services.Configure<GameConfigOptions>(builder.Configuration.GetSection("GameConfig"));
 
 //needed?
 //builder.Services.AddSingleton<IHubContext<ChatHub, IChatClient>>();

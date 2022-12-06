@@ -147,7 +147,9 @@ document.addEventListener("keyup", (event) => {
 
 })
 
-
+document.getElementById("startGameButton").addEventListener("click", function () {
+    startGame();
+})
 
 function startGame() {
 

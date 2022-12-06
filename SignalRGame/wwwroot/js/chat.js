@@ -60,6 +60,57 @@ function RemoveFromGamesList(gameName) {
 }
 
 
+function getSettingsValues() {
+    connection.invoke("PassSettingsValues");
+}
+
+connection.on("ReceiveSettingsValues", function (gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed) {
+    let gameSpeedInput = document.getElementById("gameSpeedInput");
+    let jetSpeedInput = document.getElementById("jetSpeedInput");
+    let bulletSpeedInput = document.getElementById("bulletSpeedInput");
+    let bulletLifetimeInput = document.getElementById("bulletLifetimeInput");
+    let turnSpeedInput = document.getElementById("turnSpeedInput");
+
+    gameSpeedInput.value = gameSpeed;
+    jetSpeedInput.value = jetSpeed;
+    bulletSpeedInput.value = bulletSpeed;
+    bulletLifetimeInput.value = bulletLifetime;
+    turnSpeedInput.value = turnSpeed;
+})
+
+function sendSettingsValues() {
+    let gameSpeed = document.getElementById("gameSpeedInput").value;
+    let jetSpeed = document.getElementById("jetSpeedInput").value;
+    let bulletSpeed = document.getElementById("bulletSpeedInput").value;
+    let bulletLifetime = document.getElementById("bulletLifetimeInput").value;
+    let turnSpeed = document.getElementById("turnSpeedInput").value;
+
+    connection.invoke("ClientSetSettings", gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed).catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+
+}
+
+
+
+document.getElementById("sendSettingsButton").addEventListener("click", function () {
+    sendSettingsValues();
+})
+
+
+
+
+//delete after testing
+function SetJetSpeed(value) {
+    connection.invoke("SetJetSpeed", value);
+}
+
+function GetJetSpeed() {
+    connection.invoke("GetJetSpeed");
+}
+
+
 
 connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
@@ -84,6 +135,7 @@ connection.start().then(function () {
     document.getElementById("sendButton").disabled = false;
 
     BuildGamesList();
+    getSettingsValues();
 }).catch(function (err) {
     return console.error(err.toString());
 });

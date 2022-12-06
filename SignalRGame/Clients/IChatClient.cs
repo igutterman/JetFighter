@@ -32,5 +32,7 @@ namespace SignalRGame.Clients
         Task ReceiveGameState(GameState state);
 
         Task AddPlayerToGame(string roomName);
+
+        Task ReceiveSettingsValues(float gameSpeed, float jetSpeed, float bulletSpeed, float bulletLifetime, float turnSpeed);
     }
 }

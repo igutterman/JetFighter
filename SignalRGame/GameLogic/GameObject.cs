@@ -6,14 +6,14 @@ namespace SignalRGame.GameLogic
     
     public abstract class GameObject : IGameObject
     {
-        public GameObject(float x, float y, float angle, float velocity)
+        public GameObject(float x, float y, float angle, float velocity, GameConfigOptions options)
         {
             position = new Vec2();
             X = x;
             Y = y;
             Angle = angle;
             Velocity = velocity;
-
+            _options = options;
         }
 
         //added to use object initializer to send dummy data to cli
@@ -22,6 +22,8 @@ namespace SignalRGame.GameLogic
         private List<Rectangle> hitboxes = new List<Rectangle>();
 
         private Vec2 position;
+
+        private GameConfigOptions _options;
 
         public float X { get => position.x; set { position.x = value; } }
         public float Y { get => position.y; set { position.y = value; } }
@@ -39,6 +41,8 @@ namespace SignalRGame.GameLogic
         [JsonIgnore]
         public Vec2 Position { get => position; }
 
+        
+
         public void Rotate(float angle)
         {
             Angle += angle;
@@ -53,23 +57,23 @@ namespace SignalRGame.GameLogic
 
         public virtual void Update(float elapsedTime)
         {
-            X += MathF.Cos(Angle) * Velocity * GameConfig.gameSpeed;
-            Y += MathF.Sin(Angle) * Velocity * GameConfig.gameSpeed;
+            X += MathF.Cos(Angle) * Velocity * _options.gameSpeed;
+            Y += MathF.Sin(Angle) * Velocity * _options.gameSpeed;
 
 
             // This doesn't account for collisions that happen over the edge of the canvas.
             // DP we want to do anything about that
-            if (X > GameConfig.canvasWidth)
-                X -= GameConfig.canvasWidth;
+            if (X > GameConfigOptions.canvasWidth)
+                X -= GameConfigOptions.canvasWidth;
 
-            if (Y > GameConfig.canvasHeight)
-                Y -= GameConfig.canvasHeight;
+            if (Y > GameConfigOptions.canvasHeight)
+                Y -= GameConfigOptions.canvasHeight;
 
             if (X < 0)
-                X += GameConfig.canvasWidth;
+                X += GameConfigOptions.canvasWidth;
 
             if (Y < 0)
-                Y += GameConfig.canvasHeight;
+                Y += GameConfigOptions.canvasHeight;
 
             foreach (var hitbox in Hitboxes)
             {
