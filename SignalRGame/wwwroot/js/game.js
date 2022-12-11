@@ -40,6 +40,48 @@ var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext('2d');
 
 
+
+
+
+//scaling
+//canvas scaling is in receivegamestate function
+
+//let windowheight = window.innerHeight;
+//let windowwidth = window.innerWidth;
+
+//window.onload = function (e) {
+
+//    document.getElementById("GameContainer").style.height = windowheight * 0.8;
+//    document.getElementById("GameContainer").style.width = windowwidth;
+
+//    let containerheight = document.getElementById("GameContainer").style.height;
+//    let containerwidth = document.getElementById("GameContainer").style.width;
+
+//    containerheight = windowheight * 0.8;
+//    containerwidth = windowwidth;
+
+//    let scale;
+//    if (containerheight >= 1000 && containerwidth >= 1000) {
+//        scale = 1;
+//    } else if (containerheight >= 1000) {
+//        scale = containerwidth / 1000;
+//    } else if (containerwidth >= 1000) {
+//        scale = containerheight / 1000;
+//    } else {
+//        scale = Math.max(containerheight, containerwidth) / 1000;
+//    }
+//    console.log("scaled by");
+//    console.log(scale);
+
+
+
+//    canvas.style.height = 1000 * scale;
+//    canvas.style.width = 1000 * scale;
+
+//}
+
+
+
 var mig = new Image(109, 150);
 mig.src = "images/mig.svg";
 
@@ -81,12 +123,14 @@ window.setInterval(function () {
 
 
 connection.on("ReceiveGameState", function (state) {
-    //console.log(state);
+
     gameState = state;
-    //console.log(gameState.jets.length);
-    //drawState(gameState);
+
     if (!animationStarted) {
         console.log("here");
+
+        //ctx.scale(scale, scale);
+
         draw();
         animationStarted = true;
     }
@@ -100,29 +144,19 @@ document.addEventListener("keydown", (event) => {
     }
 
     if (event.keyCode === 65 || event.keyCode === 37) {
-        //connection.invoke("TurnLeft", game);
+
         keysMap["left"] = true;
     }
 
     if (event.keyCode === 68 || event.keyCode === 39) {
         keysMap["right"] = true;
-        //connection.invoke("TurnRight", game);
+
     }
 
     if (event.keyCode === 32) {
         keysMap["shoot"] = true;
-        //connection.invoke("Shoot", game);
-    }
 
-    //if (keysMap["left"] === true) {
-    //    connection.invoke("TurnLeft", game);
-    //}
-    //if (keysMap["right"] === true) {
-    //    connection.invoke("TurnRight", game);
-    //}
-    //if (keysMap["shoot"] === true) {
-    //    connection.invoke("Shoot", game);
-    //}
+    }
 
 })
 

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SignalRGame.Hubs;
+using SignalRGame.GameLogic;
 
 namespace SignalRGame
 {
@@ -34,7 +35,7 @@ namespace SignalRGame
             {
                 configuration.RootPath = "../reactProject1/build";
             });
-
+            services.Configure<GameConfigOptions>(Configuration.GetSection("GameConfig"));
 
             //services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             //{
