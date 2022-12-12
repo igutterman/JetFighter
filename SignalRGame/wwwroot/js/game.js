@@ -46,39 +46,39 @@ var ctx = canvas.getContext('2d');
 //scaling
 //canvas scaling is in receivegamestate function
 
-//let windowheight = window.innerHeight;
-//let windowwidth = window.innerWidth;
+let windowheight = window.innerHeight;
+let windowwidth = window.innerWidth;
 
-//window.onload = function (e) {
+window.onload = function (e) {
 
-//    document.getElementById("GameContainer").style.height = windowheight * 0.8;
-//    document.getElementById("GameContainer").style.width = windowwidth;
+    document.getElementById("GameContainer").style.height = windowheight * 0.8;
+    document.getElementById("GameContainer").style.width = windowwidth;
 
-//    let containerheight = document.getElementById("GameContainer").style.height;
-//    let containerwidth = document.getElementById("GameContainer").style.width;
+    let containerheight = document.getElementById("GameContainer").style.height;
+    let containerwidth = document.getElementById("GameContainer").style.width;
 
-//    containerheight = windowheight * 0.8;
-//    containerwidth = windowwidth;
+    containerheight = windowheight * 0.8;
+    containerwidth = windowwidth;
 
-//    let scale;
-//    if (containerheight >= 1000 && containerwidth >= 1000) {
-//        scale = 1;
-//    } else if (containerheight >= 1000) {
-//        scale = containerwidth / 1000;
-//    } else if (containerwidth >= 1000) {
-//        scale = containerheight / 1000;
-//    } else {
-//        scale = Math.max(containerheight, containerwidth) / 1000;
-//    }
-//    console.log("scaled by");
-//    console.log(scale);
+    let scale;
+    if (containerheight >= 1000 && containerwidth >= 1000) {
+        scale = 1;
+    } else if (containerheight >= 1000) {
+        scale = containerwidth / 1000;
+    } else if (containerwidth >= 1000) {
+        scale = containerheight / 1000;
+    } else {
+        scale = Math.max(containerheight, containerwidth) / 1000;
+    }
+    console.log("scaled by");
+    console.log(scale);
 
 
 
-//    canvas.style.height = 1000 * scale;
-//    canvas.style.width = 1000 * scale;
+    canvas.style.height = 1000 * scale;
+    canvas.style.width = 1000 * scale;
 
-//}
+}
 
 
 
