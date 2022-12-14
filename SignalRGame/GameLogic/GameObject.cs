@@ -35,7 +35,7 @@ namespace SignalRGame.GameLogic
         [JsonIgnore]
         public List<Rectangle> Hitboxes { get => hitboxes; }
 
-        [JsonIgnore]
+        //[JsonIgnore]
         public bool MarkForDeletion { get; set; }
 
         [JsonIgnore]

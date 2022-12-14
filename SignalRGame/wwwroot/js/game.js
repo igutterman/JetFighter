@@ -220,9 +220,15 @@ function drawState(state) {
 
 
         let jet = state.jets[i];
+        console.log(jet);
+        
+        if (!jet.markForDeletion) {
 
-        drawFour(jet);
-        drawBullets(jet);
+        
+
+            drawFour(jet);
+            drawBullets(jet);
+        }
 
     }
 

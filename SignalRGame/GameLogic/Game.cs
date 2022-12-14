@@ -97,32 +97,39 @@ namespace SignalRGame.GameLogic
             {
                 var diff = stopwatch.Elapsed.TotalMilliseconds - previousTime;
                 previousTime = stopwatch.Elapsed.TotalMilliseconds;
+
+
                 foreach (var jet in jets)
                 {
-                    jet.Update((float) diff);
+                    if (!jet.MarkForDeletion)
+                        jet.Update((float) diff);
                 }
 
                 foreach (var jet in jets)
                 {
-                    foreach (var jetOther in jets)
-                    {
-                        // Don't compare a jet against itself
-                        if (jetOther == jet)
-                            continue;
+                    if (!jet.MarkForDeletion)
+                    { 
 
-                        if (jet.CollidesWith(jetOther))
+                        foreach (var jetOther in jets)
                         {
-                            System.Diagnostics.Debug.WriteLine("collision");
-                            ;
-                        }
+                            // Don't compare a jet against itself
+                            if (jetOther == jet)
+                                continue;
 
-                        foreach(var bullet in jetOther.Bullets)
-                        {
-                            if (jet.CollidesWith(bullet))
+                            if (jet.CollidesWith(jetOther))
                             {
-                                //System.Diagnostics.Debug.WriteLine("collision");
-                                jet.MarkForDeletion = true;
-                                jet.TakesDamage(10);
+                                System.Diagnostics.Debug.WriteLine("collision");
+                                ;
+                            }
+
+                            foreach(var bullet in jetOther.Bullets)
+                            {
+                                if (jet.CollidesWith(bullet))
+                                {
+                                    System.Diagnostics.Debug.WriteLine("collision with bullet");
+                                    //jet.MarkForDeletion = true;
+                                    jet.TakesDamage(10);
+                                }
                             }
                         }
                     }
