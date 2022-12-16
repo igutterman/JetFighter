@@ -158,6 +158,8 @@ document.addEventListener("keydown", (event) => {
 
     }
 
+    event.preventDefault();
+
 })
 
 document.addEventListener("keyup", (event) => {
