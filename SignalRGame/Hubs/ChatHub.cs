@@ -35,7 +35,7 @@ namespace SignalRGame.Hubs
             //string name = Context.User.Identity.Name;
             //_connections.Add(name, Context.ConnectionId);
 
-            await _gameService.SayHi();
+            //await _gameService.SayHi();
 
 
             await base.OnConnectedAsync();
