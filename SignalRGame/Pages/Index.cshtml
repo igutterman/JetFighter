@@ -1,4 +1,5 @@
 ﻿@page
+<link rel="stylesheet" href="~/css/site.css">
 
 
 
@@ -73,7 +74,26 @@
     </div>
 
 
-    <div id="GameContainer" style="padding-top: 100px">
+    <!-- HTML for the first health bar -->
+
+
+
+
+    <div id="GameContainer" style="padding-top: 10px">
+
+    <div id="health-bar-1">
+        Jet 1 health:
+        <div id="health-level-1"></div>
+    </div>
+    <br />
+    <!-- HTML for the second health bar -->
+    <div id="health-bar-2">
+        Jet 2 health:
+        <div id="health-level-2"></div>
+    </div>
+
+    <br />
+
         <span><canvas id="gameCanvas" width="1000" height="1000" style="border: 1px solid #000000;"></canvas></span>
     </div>
 </div>

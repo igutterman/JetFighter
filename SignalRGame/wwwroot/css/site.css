@@ -37,3 +37,17 @@ td {
     width: 30px;
     height: 30px;
 }
+
+
+
+#health-bar-1, #health-bar-2 {
+    width: 300px;
+    height: 20px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+#health-level-1, #health-level-2 {
+    height: 100%;
+    background-color: green;
+}

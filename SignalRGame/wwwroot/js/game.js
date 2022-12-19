@@ -49,6 +49,9 @@ var ctx = canvas.getContext('2d');
 let windowheight = window.innerHeight;
 let windowwidth = window.innerWidth;
 
+var healthLevel1 = 100;
+var healthLevel2 = 100;
+
 window.onload = function (e) {
 
     document.getElementById("GameContainer").style.height = windowheight * 0.8;
@@ -78,7 +81,12 @@ window.onload = function (e) {
     canvas.style.height = 1000 * scale;
     canvas.style.width = 1000 * scale;
 
+
+    document.getElementById("health-level-1").style.width = healthLevel1 + "%";
+    document.getElementById("health-level-2").style.width = healthLevel2 + "%";
 }
+
+
 
 
 
@@ -106,8 +114,11 @@ jetExp5.src = "images/jetExp5.svg";
 var jetExp6 = new Image(40, 38);
 jetExp6.src = "images/jetExp6.svg";
 
-var bullet = new Image(15, 15);
-bullet.src = "images/bullet.svg";
+var bullet1 = new Image(15, 15);
+bullet1.src = "images/rBullet1.svg";
+
+var bullet2 = new Image(15, 15);
+bullet2.src = "images/rBullet2.svg";
 
 var animationStarted = false;
 
@@ -242,6 +253,16 @@ function drawState(state) {
         //console.log("here222");
         console.log(jet);
 
+        //update health bars
+        if (jet.jetID === 1) {
+            healthLevel1 = jet.health;
+            document.getElementById("health-level-1").style.width = healthLevel1 + "%";
+        } else {
+            healthLevel2 = jet.health;
+            document.getElementById("health-level-2").style.width = healthLevel2 + "%";
+        }
+
+
         //change this so it keeps drawing bullets until they are deleted
         if (jet.drawState < 60) {
             //console.log("here1111");
@@ -342,7 +363,14 @@ function drawFour(jet) {
 
 function drawBullets(jet) {
 
-    let img = bullet;
+    //let img = bullet;
+
+    let img;
+    if (jet.jetID === 1) {
+        img = bullet1;
+    } else {
+        img = bullet2;
+    }
 
     for (let i = 0; i < jet.bullets.length; i++) {
 
