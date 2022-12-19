@@ -88,6 +88,24 @@ mig.src = "images/mig.svg";
 var f16 = new Image(113, 150);
 f16.src = "images/f16.svg";
 
+var jetExp1 = new Image(154, 150);
+jetExp1.src = "images/jetExp1.svg";
+
+var jetExp2 = new Image(140, 130);
+jetExp2.src = "images/jetExp2.svg";
+
+var jetExp3 = new Image(110, 104);
+jetExp3.src = "images/jetExp3.svg";
+
+var jetExp4 = new Image(90, 90);
+jetExp4.src = "images/jetExp4.svg";
+
+var jetExp5 = new Image(75, 77);
+jetExp5.src = "images/jetExp5.svg";
+
+var jetExp6 = new Image(40, 38);
+jetExp6.src = "images/jetExp6.svg";
+
 var bullet = new Image(15, 15);
 bullet.src = "images/bullet.svg";
 
@@ -220,14 +238,13 @@ function drawState(state) {
     for (let i = 0; i < state.jets.length; i++) {
 
 
-
         let jet = state.jets[i];
+        //console.log("here222");
         console.log(jet);
-        
-        if (!jet.markForDeletion) {
 
-        
-
+        //change this so it keeps drawing bullets until they are deleted
+        if (jet.drawState < 60) {
+            //console.log("here1111");
             drawFour(jet);
             drawBullets(jet);
         }
@@ -250,14 +267,27 @@ function drawRotated(img, x, y, angle) {
 
 function drawFour(jet) {
 
-    //console.log("drawfour called");
+    console.log("drawfour called");
 
     let img;
 
-    if (jet.jetID === 1) {
+    if (jet.jetID === 1 && jet.drawState === 0) {
         img = mig;
-    } else if (jet.jetID === 2) {
+        console.log("case 1");
+    } else if (jet.jetID === 2 && jet.drawState === 0) {
         img = f16;
+    } else if (jet.drawState > 0 && jet.drawState < 10) {
+        img = jetExp1;
+    } else if (jet.drawState > 10 && jet.drawState < 20) {
+        img = jetExp2;
+    } else if (jet.drawState > 20 && jet.drawState < 30) {
+        img = jetExp3;
+    } else if (jet.drawState > 30 && jet.drawState < 40) {
+        img = jetExp4;
+    } else if (jet.drawState > 40 && jet.drawState < 50) {
+        img = jetExp5;
+    } else if (jet.drawState > 50 && jet.drawState < 60) {
+        img = jetExp6;
     }
 
 

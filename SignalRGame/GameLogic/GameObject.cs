@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace SignalRGame.GameLogic
 {
-    
+
     public abstract class GameObject : IGameObject
     {
         public GameObject(float x, float y, float angle, float velocity, GameConfigOptions options)
@@ -41,7 +41,7 @@ namespace SignalRGame.GameLogic
         [JsonIgnore]
         public Vec2 Position { get => position; }
 
-        
+
 
         public void Rotate(float angle)
         {
@@ -121,10 +121,10 @@ namespace SignalRGame.GameLogic
             return false;
         }
 
-        private float _health  = 100;
-        public float Health { get { return _health; } }
+        private float _health = 100;
+        public float Health { get { return _health; } set { _health = value; } }
 
-        public void TakesDamage(float damage)
+        public virtual void TakesDamage(float damage)
         {
             _health -= damage;
 

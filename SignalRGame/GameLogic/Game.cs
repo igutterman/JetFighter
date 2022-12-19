@@ -101,8 +101,7 @@ namespace SignalRGame.GameLogic
 
                 foreach (var jet in jets)
                 {
-                    if (!jet.MarkForDeletion)
-                        jet.Update((float) diff);
+                    jet.Update((float) diff);
                 }
 
                 foreach (var jet in jets)

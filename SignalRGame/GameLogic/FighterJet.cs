@@ -15,6 +15,11 @@ namespace SignalRGame.GameLogic
 
         public GameConfigOptions options;
 
+        //Tells client which animation state to draw (0 is default, 1 is first explosion frame, etc)
+        //draw state 7 tells client not to draw
+        //Change to enum type?
+        public int drawState { get; set; } = 0;
+
         public FighterJet(float x, float y, float angle, int jetID, GameConfigOptions Options)
             : base(x, y, angle, Options.jetSpeed, Options)
         {
@@ -49,10 +54,15 @@ namespace SignalRGame.GameLogic
             foreach (Bullet bullet in Bullets)
             {
                 bullet.Update(elapsedTime);
+            }
 
-            }    
+            if (drawState > 0 && drawState < 60)
+            {
+                drawState += 1;
+            }
 
-            base.Update(elapsedTime);
+            if (!MarkForDeletion)
+                base.Update(elapsedTime);
         }
 
         public override void Clean()
@@ -67,6 +77,20 @@ namespace SignalRGame.GameLogic
             }
 
             Bullets = newBullets;
+        }
+
+        public override void TakesDamage(float damage)
+        {
+            Health -= damage;
+
+            if (Health < 0)
+            {
+                MarkForDeletion = true;
+                if (drawState == 0)
+                {
+                    drawState = 1;
+                }
+            }
         }
     }
 }
