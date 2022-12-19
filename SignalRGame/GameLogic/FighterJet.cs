@@ -20,6 +20,11 @@ namespace SignalRGame.GameLogic
         //Change to enum type?
         public int drawState { get; set; } = 0;
 
+
+
+        //used to send bullet audio state
+        public bool fired { get; set; } = false;
+
         public FighterJet(float x, float y, float angle, int jetID, GameConfigOptions Options)
             : base(x, y, angle, Options.jetSpeed, Options)
         {
@@ -42,6 +47,7 @@ namespace SignalRGame.GameLogic
             if (DateTime.Now >= LastBulletFired.AddMilliseconds(options.bulletDelay))
             {
                 Bullets.Add(new Bullet(X, Y, Angle, options));
+                fired = true;
                 LastBulletFired = DateTime.Now;
             }
             

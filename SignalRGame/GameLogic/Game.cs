@@ -42,7 +42,7 @@ namespace SignalRGame.GameLogic
         }
 
 
-        public bool AddPlayer(string playerID)
+        public int AddPlayer(string playerID)
         {
 
             if (players.Count == 0)
@@ -50,15 +50,15 @@ namespace SignalRGame.GameLogic
                 FighterJet jet = AddJet(100, 100, 1.57f, 1, options);
                 players.TryAdd(playerID, jet);
 
-                return true;
+                return 1;
             } else if (players.Count == 1)
             {
                 FighterJet jet = AddJet(900, 900, 4.71f, 2, options);
                 players.TryAdd(playerID, jet);
-                return true;
+                return 2;
             } else
             {
-                return false;
+                return 0;
             }
 
             //return false;

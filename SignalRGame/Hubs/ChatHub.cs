@@ -224,21 +224,22 @@ namespace SignalRGame.Hubs
 
             if (!_gameService.checkGameExists(gameName))
             {
-                await Clients.Caller.ReceiveAddToGameResponse("No such game", false, gameName);
+                await Clients.Caller.ReceiveAddToGameResponse("No such game", 0, gameName);
                 return;
             }
 
-            bool success = _gameService.AddPlayerToGame(gameName, Context.ConnectionId);
+            int playerNum = _gameService.AddPlayerToGame(gameName, Context.ConnectionId);
 
-            if (success)
+            //0 indicates failure to join game
+            if (playerNum > 0)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, gameName);
             }
 
-            string message = success ? $"You joined {gameName}" : $"Failed to join {gameName}, full";
+            string message = playerNum > 0 ? $"You joined {gameName}" : $"Failed to join {gameName}, full";
 
 
-            await Clients.Caller.ReceiveAddToGameResponse(message, true, gameName);
+            await Clients.Caller.ReceiveAddToGameResponse(message, playerNum, gameName);
 
 
             //Game game = games[roomName];

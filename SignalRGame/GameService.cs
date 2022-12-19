@@ -103,7 +103,7 @@ namespace SignalRGame
             return dict;
         }
 
-        public bool AddPlayerToGame(string gameName, string playerID)
+        public int AddPlayerToGame(string gameName, string playerID)
         {
             Console.WriteLine($"{playerID} wants to join {gameName}");
             Console.WriteLine($"current players: {_games[gameName].GetPlayerCount()}");
@@ -131,6 +131,32 @@ namespace SignalRGame
             void OnStateChanged(FighterJet[] jets)
             {
                 GameState state = new GameState(jets);
+                foreach (FighterJet jet in jets)
+                {
+                    
+                    //crash audio
+                    if (jet.drawState == 1)
+                    {
+                        state.playCrashAudio = true;
+                        Console.WriteLine("sent crash audio");
+                    }
+
+                    //shooting audio
+                    if (jet.fired == true) {
+                        if (jet.jetID == 1)
+                        {
+                            state.jetOneFired = true;
+                        } else if (jet.jetID == 2)
+                        {
+                            state.jetTwoFired = true;
+                        }
+                    }
+
+                    //reset fired state
+                    jet.fired = false;
+                        
+
+                }
                 //Console.WriteLine($"GameService: game: {gameName}, jet0: {jets[0].X}, {jets[0].Y}");
                 _context.Clients.Groups(gameName).ReceiveGameState(state);
             }

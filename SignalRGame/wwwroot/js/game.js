@@ -39,7 +39,11 @@ var gameState;
 var canvas = document.getElementById("gameCanvas");
 var ctx = canvas.getContext('2d');
 
+var crashAudio = new Audio("images/jetCrash.mp3");
 
+//gun audio depends on var playerNum from chat.js
+var ownGun = new Audio("images/ownGun.mp3");
+var enemyGun = new Audio("images/enemyGun.mp3");
 
 
 
@@ -84,6 +88,8 @@ window.onload = function (e) {
 
     document.getElementById("health-level-1").style.width = healthLevel1 + "%";
     document.getElementById("health-level-2").style.width = healthLevel2 + "%";
+
+    //crashAudio.play();
 }
 
 
@@ -162,6 +168,27 @@ connection.on("ReceiveGameState", function (state) {
 
         draw();
         animationStarted = true;
+    }
+
+
+    if (state.playCrashAudio === true) {
+        crashAudio.play();
+    }
+
+    if (state.jetOneFired === true) {
+        if (playerNum === 1) {
+            ownGun.play();
+        } else {
+            enemyGun.play();
+        }
+    }
+
+    if (state.jetTwoFired === true) {
+        if (playerNum === 2) {
+            ownGun.play();
+        } else {
+            enemyGun.play();
+        }
     }
     
 });
@@ -242,8 +269,7 @@ function drawState(state) {
     ctx.clearRect(0, 0, 1000, 1000);
     ctx.fillStyle = "rgba(0, 191, 255, 0.95)";
     ctx.fillRect(0, 0, 1000, 1000);
-    //console.log(state);
-
+    console.log(state);
 
 
     for (let i = 0; i < state.jets.length; i++) {
@@ -251,7 +277,7 @@ function drawState(state) {
 
         let jet = state.jets[i];
         //console.log("here222");
-        console.log(jet);
+        //console.log(jet);
 
         //update health bars
         if (jet.jetID === 1) {
@@ -299,6 +325,7 @@ function drawFour(jet) {
         img = f16;
     } else if (jet.drawState > 0 && jet.drawState < 10) {
         img = jetExp1;
+
     } else if (jet.drawState > 10 && jet.drawState < 20) {
         img = jetExp2;
     } else if (jet.drawState > 20 && jet.drawState < 30) {

@@ -9,10 +9,14 @@ namespace SignalRGame.Models
 
         public IList<FighterJet> Jets { get; set; } = new List<FighterJet>();
 
+        public bool playCrashAudio { get; set; } = false;
+        public bool jetOneFired { get; set; } = false;
+        public bool jetTwoFired { get; set; } = false;
 
         public GameState(IList<FighterJet> jets)
         {
             Jets = jets;
+            //playCrashAudio = false;
         }
 
         //delete after testing?

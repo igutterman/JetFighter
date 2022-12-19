@@ -2,18 +2,21 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
+var playerNum = 0;
+
 //set back to null when leave game?
 var game = null;
 
 //Disable the send button until connection is established.
 document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveAddToGameResponse", function (responseMessage, success, gameName) {
+connection.on("ReceiveAddToGameResponse", function (responseMessage, playerNumber, gameName) {
     alert(responseMessage);
 
     //change response type to bool, check if true
-    if (success === true) {
+    if (playerNumber > 0) {
         game = gameName;
+        playerNum = playerNumber;
     }
     
     event.preventDefault();

@@ -11,7 +11,7 @@ namespace SignalRGame.Clients
 
         Task ReceiveGroupMessage(string user, string message, string group);
 
-        Task ReceiveAddToGameResponse(string response, bool success, string gameName);
+        Task ReceiveAddToGameResponse(string response, int playerNum, string gameName);
 
         Task AddGame(string gameName);
 
