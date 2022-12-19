@@ -33,6 +33,6 @@ namespace SignalRGame.Clients
 
         Task AddPlayerToGame(string roomName);
 
-        Task ReceiveSettingsValues(float gameSpeed, float jetSpeed, float bulletSpeed, float bulletLifetime, float turnSpeed);
+        Task ReceiveSettingsValues(float gameSpeed, float jetSpeed, float bulletSpeed, float bulletLifetime, float turnSpeed, int bulletDelay);
     }
 }

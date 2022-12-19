@@ -296,10 +296,10 @@ namespace SignalRGame.Hubs
         {
             var o = _gameService.getOptions();
 
-            await Clients.All.ReceiveSettingsValues(o.gameSpeed, o.jetSpeed, o.bulletSpeed, o.bulletLifetime, o.turnSpeed);
+            await Clients.All.ReceiveSettingsValues(o.gameSpeed, o.jetSpeed, o.bulletSpeed, o.bulletLifetime, o.turnSpeed, o.bulletDelay);
         }
 
-        public void ClientSetSettings(string gameSpeed, string jetSpeed, string bulletSpeed, string bulletLifetime, string turnSpeed)
+        public void ClientSetSettings(string gameSpeed, string jetSpeed, string bulletSpeed, string bulletLifetime, string turnSpeed, string bulletDelay)
         {
 
             float GameSpeed = float.Parse(gameSpeed);
@@ -307,6 +307,7 @@ namespace SignalRGame.Hubs
             float BulletSpeed = float.Parse(bulletSpeed);
             int BulletLifetime = int.Parse(bulletLifetime);
             float TurnSpeed = float.Parse(turnSpeed);
+            int BulletDelay = Int32.Parse(bulletDelay);
 
             Console.WriteLine(gameSpeed);
 
@@ -318,6 +319,7 @@ namespace SignalRGame.Hubs
             o.bulletSpeed = BulletSpeed;
             o.bulletLifetime = BulletLifetime;
             o.turnSpeed = TurnSpeed;
+            o.bulletDelay = BulletDelay;
 
             _gameService.SetOptions(o);
 

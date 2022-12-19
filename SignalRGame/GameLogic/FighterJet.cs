@@ -39,7 +39,7 @@ namespace SignalRGame.GameLogic
         public void FireBullet()
         {
 
-            if (DateTime.Now >= LastBulletFired.AddMilliseconds(150))
+            if (DateTime.Now >= LastBulletFired.AddMilliseconds(options.bulletDelay))
             {
                 Bullets.Add(new Bullet(X, Y, Angle, options));
                 LastBulletFired = DateTime.Now;

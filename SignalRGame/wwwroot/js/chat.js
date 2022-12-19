@@ -64,18 +64,20 @@ function getSettingsValues() {
     connection.invoke("PassSettingsValues");
 }
 
-connection.on("ReceiveSettingsValues", function (gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed) {
+connection.on("ReceiveSettingsValues", function (gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed, bulletDelay) {
     let gameSpeedInput = document.getElementById("gameSpeedInput");
     let jetSpeedInput = document.getElementById("jetSpeedInput");
     let bulletSpeedInput = document.getElementById("bulletSpeedInput");
     let bulletLifetimeInput = document.getElementById("bulletLifetimeInput");
     let turnSpeedInput = document.getElementById("turnSpeedInput");
+    let bulletDelayInput = document.getElementById("bulletDelayInput");
 
     gameSpeedInput.value = gameSpeed;
     jetSpeedInput.value = jetSpeed;
     bulletSpeedInput.value = bulletSpeed;
     bulletLifetimeInput.value = bulletLifetime;
     turnSpeedInput.value = turnSpeed;
+    bulletDelayInput.value = bulletDelay;
 })
 
 function sendSettingsValues() {
@@ -84,8 +86,9 @@ function sendSettingsValues() {
     let bulletSpeed = document.getElementById("bulletSpeedInput").value;
     let bulletLifetime = document.getElementById("bulletLifetimeInput").value;
     let turnSpeed = document.getElementById("turnSpeedInput").value;
+    let bulletDelay = document.getElementById("bulletDelayInput").value;
 
-    connection.invoke("ClientSetSettings", gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed).catch(function (err) {
+    connection.invoke("ClientSetSettings", gameSpeed, jetSpeed, bulletSpeed, bulletLifetime, turnSpeed, bulletDelay).catch(function (err) {
         return console.error(err.toString());
     });
     event.preventDefault();

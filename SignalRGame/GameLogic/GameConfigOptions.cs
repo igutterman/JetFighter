@@ -13,5 +13,6 @@
         public float bulletSpeed { get; set; } = 2f;
         public int bulletLifetime { get; set; } = 3000;
         public float turnSpeed { get; set; } = 0.035f;
+        public int bulletDelay { get; set; }
     }
 }
