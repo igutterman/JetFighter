@@ -127,7 +127,8 @@ namespace SignalRGame.GameLogic
                                 {
                                     System.Diagnostics.Debug.WriteLine("collision with bullet");
                                     //jet.MarkForDeletion = true;
-                                    bullet.MarkForDeletion = true;
+                                    //bullet.MarkForDeletion = true;
+                                    bullet.drawState = 1;
                                     jet.TakesDamage(10);
                                 }
                             }

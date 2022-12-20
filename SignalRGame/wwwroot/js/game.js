@@ -126,6 +126,13 @@ bullet1.src = "images/rBullet1.svg";
 var bullet2 = new Image(15, 15);
 bullet2.src = "images/rBullet2.svg";
 
+
+var bulletExp1 = new Image(30, 30);
+bulletExp1.src = "images/jetExp5.svg";
+
+var bulletExp2 = new Image(20, 20);
+bulletExp2.src = "images/jetExp6.svg";
+
 var animationStarted = false;
 
 var keysMap = {};
@@ -395,11 +402,19 @@ function drawBullets(jet) {
     let img;
     if (jet.jetID === 1) {
         img = bullet1;
-    } else {
+    } else if (jet.jetID === 2) {
         img = bullet2;
     }
 
     for (let i = 0; i < jet.bullets.length; i++) {
+
+        if (jet.bullets[i].drawState > 0 && jet.bullets[i].drawState <= 10) {
+            img = bulletExp1;
+        } else if (jet.bullets[i].drawState > 10 && jet.bullets[i].drawState < 20) {
+            img = bulletExp2;
+        }
+
+
 
         let x = jet.bullets[i].x;
         let y = jet.bullets[i].y;
