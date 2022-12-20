@@ -15,8 +15,6 @@ namespace SignalRGame.GameLogic
         public GameConfigOptions options;
 
 
-
-
         public Game(GameConfigOptions Options)
         {
             cts = new CancellationTokenSource();
@@ -72,7 +70,7 @@ namespace SignalRGame.GameLogic
             return jets.ToList();
         }
 
-        public void Pause()
+        public void Stop()
         {
             cts.Cancel();
         }

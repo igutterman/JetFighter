@@ -48,7 +48,9 @@ namespace SignalRGame
 
             //if no players left, remove game
             if (_games[game].GetPlayerCount() == 0) {
+                Console.WriteLine("player count 0, removing game");
                 await removeGame(game);
+
             } else
             {
                 await _context.Clients.Groups(game).NotifyPlayerLeft(playerID);
@@ -59,10 +61,18 @@ namespace SignalRGame
 
         public async Task removeGame(string game)
         {
+            Console.WriteLine($"removing game: {game}");
+
+            _games[game].Stop();
+
             if (_games.TryRemove(game, out _))
             {
+                Console.WriteLine($"removed game: {game}");
                 await _context.Clients.All.RemoveGame(game);
             }
+
+            Console.WriteLine("Does game exist?:");
+            Console.WriteLine(checkGameExists(game));
 
         }
 

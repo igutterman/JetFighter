@@ -131,22 +131,22 @@ namespace SignalRGame.Hubs
 
         }
 
-        public async Task JoinRoom(string name)
-        {
-            if (!rooms.ContainsKey(name)) return;
-            //should alert user that room doesn't exist
+        //public async Task JoinRoom(string name)
+        //{
+        //    if (!rooms.ContainsKey(name)) return;
+        //    //should alert user that room doesn't exist
 
 
 
-            await Groups.AddToGroupAsync(Context.ConnectionId, name);
-            rooms[name].Add(Context.ConnectionId);
+        //    await Groups.AddToGroupAsync(Context.ConnectionId, name);
+        //    rooms[name].Add(Context.ConnectionId);
 
-            Console.WriteLine($"{Context.ConnectionId} joined room: {name} ");
+        //    Console.WriteLine($"{Context.ConnectionId} joined room: {name} ");
 
-            games[name].AddPlayer(Context.ConnectionId);
+        //    games[name].AddPlayer(Context.ConnectionId);
 
             
-        }
+        //}
 
         public async Task PassGamesList()
         {
@@ -213,11 +213,11 @@ namespace SignalRGame.Hubs
         //}
 
         //delete after testing and remove no-params gamestate constructor
-        public async Task SendDummyState()
-        {
-            GameState state = new GameState();
-            await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
-        }
+        //public async Task SendDummyState()
+        //{
+        //    GameState state = new GameState();
+        //    await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
+        //}
 
         public async Task AddPlayerToGame(string gameName)
         {
