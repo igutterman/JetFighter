@@ -7,7 +7,7 @@
         public static float canvasWidth { get; set; } = 1000;
         public static float canvasHeight { get; set; } = 1000;
 
-        public float gameSpeed { get; set; } = 2f;
+        public float gameSpeed { get; set; } = 0.1f;
 
         public float jetSpeed { get; set; }
         public float bulletSpeed { get; set; } = 2f;
