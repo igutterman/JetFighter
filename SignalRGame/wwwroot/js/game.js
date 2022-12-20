@@ -399,14 +399,17 @@ function drawBullets(jet) {
 
     //let img = bullet;
 
-    let img;
-    if (jet.jetID === 1) {
-        img = bullet1;
-    } else if (jet.jetID === 2) {
-        img = bullet2;
-    }
+
 
     for (let i = 0; i < jet.bullets.length; i++) {
+
+
+        let img;
+        if (jet.jetID === 1) {
+            img = bullet1;
+        } else if (jet.jetID === 2) {
+            img = bullet2;
+        }
 
         if (jet.bullets[i].drawState > 0 && jet.bullets[i].drawState <= 10) {
             img = bulletExp1;
