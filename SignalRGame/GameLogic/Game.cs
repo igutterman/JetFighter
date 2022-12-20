@@ -93,11 +93,11 @@ namespace SignalRGame.GameLogic
             var ct = (CancellationToken)e;
 
             var previousTime = stopwatch.Elapsed.TotalMilliseconds;
+
             while (!ct.IsCancellationRequested)
             {
-                var diff = stopwatch.Elapsed.TotalMilliseconds - previousTime;
-                previousTime = stopwatch.Elapsed.TotalMilliseconds;
-
+                var loopStartTime = stopwatch.Elapsed.TotalMilliseconds;
+                var diff = loopStartTime - previousTime;
 
                 foreach (var jet in jets)
                 {
@@ -146,8 +146,11 @@ namespace SignalRGame.GameLogic
                     }
                 }
 
-                if (diff < preferredTickPeriod)
-                    Thread.Sleep((int)(preferredTickPeriod - diff));
+                previousTime = loopStartTime;
+
+                var loopEndTime = stopwatch.ElapsedMilliseconds;
+                if (loopStartTime - loopEndTime < preferredTickPeriod)
+                    Thread.Sleep((int)(preferredTickPeriod - (loopStartTime - loopEndTime)));
 
             }
 

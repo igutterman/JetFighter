@@ -57,8 +57,8 @@ namespace SignalRGame.GameLogic
 
         public virtual void Update(float elapsedTime)
         {
-            X += MathF.Cos(Angle) * Velocity * _options.gameSpeed;
-            Y += MathF.Sin(Angle) * Velocity * _options.gameSpeed;
+            X += MathF.Cos(Angle) * Velocity * _options.gameSpeed * elapsedTime;
+            Y += MathF.Sin(Angle) * Velocity * _options.gameSpeed * elapsedTime;
 
 
             // This doesn't account for collisions that happen over the edge of the canvas.
