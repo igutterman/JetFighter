@@ -99,7 +99,7 @@ window.onload = function (e) {
 var mig = new Image(109, 150);
 mig.src = "images/mig.svg";
 
-var f16 = new Image(113, 150);
+var f16 = new Image(113, 130);
 f16.src = "images/f16.svg";
 
 var jetExp1 = new Image(154, 150);
@@ -318,6 +318,13 @@ function drawRotated(img, x, y, angle) {
 
 }
 
+function round(num) {
+
+    return (0.5 + num) << 0;
+
+
+}
+
 
 function drawFour(jet) {
 
@@ -352,15 +359,9 @@ function drawFour(jet) {
     let angle = jet.angle;
 
     //round x and y to get rid of decimals
-    roundedx = (0.5 + x) | 0;
-    roundedx = ~~(0.5 + x);
-    roundedx = (0.5 + x) << 0;
-    x = roundedx;
+    x = round(x);
 
-    roundedy = (0.5 + y) | 0;
-    roundedy = ~~(0.5 + y);
-    roundedy = (0.5 + y) << 0;
-    y = roundedy;
+    y = round(y);
 
     console.log(x);
     console.log(y);
@@ -424,15 +425,9 @@ function drawBullets(jet) {
         let angle = jet.bullets[i].angle;
 
         //round x and y to get rid of decimals
-        roundedx = (0.5 + x) | 0;
-        roundedx = ~~(0.5 + x);
-        roundedx = (0.5 + x) << 0;
-        x = roundedx;
+        x = round(x);
 
-        roundedy = (0.5 + y) | 0;
-        roundedy = ~~(0.5 + y);
-        roundedy = (0.5 + y) << 0;
-        y = roundedy;
+        y = round(y);
 
 
 
