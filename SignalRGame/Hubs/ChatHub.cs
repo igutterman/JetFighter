@@ -12,7 +12,7 @@ namespace SignalRGame.Hubs
     public class ChatHub : Hub<IChatClient>
     {
 
-        private readonly static ConcurrentDictionary<string, List<string>> rooms = new ConcurrentDictionary<string, List<string>>();
+        //private readonly static ConcurrentDictionary<string, List<string>> rooms = new ConcurrentDictionary<string, List<string>>();
 
         //private readonly static ConnectionMapping<string> _connections = new ConnectionMapping<string>();
 
@@ -32,73 +32,27 @@ namespace SignalRGame.Hubs
         public override async Task OnConnectedAsync()
         {
 
-            //string name = Context.User.Identity.Name;
-            //_connections.Add(name, Context.ConnectionId);
-
-            //await _gameService.SayHi();
-
 
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            //string name = Context.User.Identity.Name;
-
-            //_connections.Remove(name, Context.ConnectionId);
 
             string id = Context.ConnectionId;
 
             await _gameService.removePlayer(id);
-
-            //Console.WriteLine($"{id} disconnected");
-
-            //Console.WriteLine($"Removed {id} from room: {RemoveFromRoom(id)}");
-
 
 
             await base.OnDisconnectedAsync(exception);
 
         }
 
-        //public string RemoveFromRoom(string connectionID)
-        //{
-
-        //    foreach (var kv in rooms)
-        //    {
-        //        if (kv.Value.Contains(connectionID))
-        //        {
-        //            kv.Value.Remove(connectionID);
-        //            string roomName = kv.Key;
-
-        //            Console.WriteLine($"count: {kv.Value.Count}");
-        //            foreach (string id in kv.Value)
-        //            {
-        //                Console.WriteLine(id);
-        //            }
-
-        //            if (kv.Value.Count == 0)
-        //            {
-        //                Console.WriteLine("Room is empty");
-        //                rooms.Remove(kv.Key, out _);
-        //                Clients.All.RemoveGame(gameName);
-        //            }
-                        
-
-
-        //            return roomName;
-        //        }
-        //    }
-        //    return null;
-
-        //}
-
-
 
 
         public async Task SendMessage(string user, string message)
           => await Clients.All.ReceiveMessage(user, message);
-        
+
 
         public async Task SendMessageToGroup(string user, string message, string group)
           => await Clients.Group(group).ReceiveGroupMessage(user, message, group);
@@ -114,7 +68,7 @@ namespace SignalRGame.Hubs
 
 
             _gameService.createGame(gameName);
-            
+
             //Creating a room does not add the room creator to it,  ///since connection will be in a new client. <- not anymore
             //rooms.TryAdd(name, new List<string> { Context.ConnectionId });
 
@@ -124,29 +78,12 @@ namespace SignalRGame.Hubs
             await Clients.All.AddGame(gameName);
             //needs to send new room to rooms list that clients see
 
-
-
             //await Groups.AddToGroupAsync(Context.ConnectionId, name);
 
 
         }
 
-        //public async Task JoinRoom(string name)
-        //{
-        //    if (!rooms.ContainsKey(name)) return;
-        //    //should alert user that room doesn't exist
 
-
-
-        //    await Groups.AddToGroupAsync(Context.ConnectionId, name);
-        //    rooms[name].Add(Context.ConnectionId);
-
-        //    Console.WriteLine($"{Context.ConnectionId} joined room: {name} ");
-
-        //    games[name].AddPlayer(Context.ConnectionId);
-
-            
-        //}
 
         public async Task PassGamesList()
         {
@@ -155,69 +92,7 @@ namespace SignalRGame.Hubs
 
         }
 
-        //Game data section
 
-        //public async Task ReceiveTurn(string group, int row, int col)
-        //{
-
-        //    TicTacToe game = games[group];
-
-            
-
-        //    int playerNumber = game.getPlayerNumber(Context.ConnectionId);
-        //    if (playerNumber == -1) return;
-
-        //    if (!game.isValidMove(playerNumber, row, col)) return;
-
-        //    game.setCell(playerNumber, row, col);
-
-        //    char c = playerNumber == 1 ? 'X' : 'O';
-
-        //    await SendTurn(group, c, row, col);
-
-        //    if (game.checkWin() != 'Q')
-        //        await SendWin(group, c);
-
-        //}
-
-
-        //public async Task SendTurn(string group, char c, int row, int col)
-        //{
-        //    await Clients.Group(group).ReceiveTurn(c, row, col);
-        //}
-
-        //public async Task SendWin(string group, char c)
-        //{
-        //    await Clients.Group(group).ReceiveWin(c);
-
-        //}
-
-        //public async Task SendJetFighter()
-        //{
-        //    FighterJet jet = new FighterJet(500, 500, 0.5F);
-
-        //    jet.Bullets.Add(new Bullet(501, 501, 0.5F));
-        //    jet.Bullets.Add(new Bullet(502, 502, 0.4F));
-
-        //    await Clients.Caller.ReceiveJetFighter(jet);
-        //
-
-        //public async Task SendGameState(string group, FighterJet[] jets)
-        //{
-
-        //    GameState state = new GameState(jets);
-
-        //    //Console.WriteLine(jets[0].ToString());
-
-        //    await Clients.Group(group).ReceiveGameState(state);
-        //}
-
-        //delete after testing and remove no-params gamestate constructor
-        //public async Task SendDummyState()
-        //{
-        //    GameState state = new GameState();
-        //    await Clients.Caller.ReceiveGameState(state.GenerateDummyState());
-        //}
 
         public async Task AddPlayerToGame(string gameName)
         {
@@ -242,8 +117,6 @@ namespace SignalRGame.Hubs
             await Clients.Caller.ReceiveAddToGameResponse(message, playerNum, gameName);
 
 
-            //Game game = games[roomName];
-            //return game.AddPlayer(Context.ConnectionId);
         }
 
 
@@ -251,18 +124,6 @@ namespace SignalRGame.Hubs
         {
 
             _gameService.StartGame(gameName);
-
-            //Game game = games[roomName];
-
-            //game.OnSendState = OnStateChanged;
-
-            //async void OnStateChanged(FighterJet[] jets)
-            //{
-            //    Console.WriteLine($"jet0: {jets[0].X}, {jets[0].Y}");
-            //    await SendGameState(roomName, jets);
-            //}
-
-            //game.Start();
 
 
         }
@@ -313,8 +174,8 @@ namespace SignalRGame.Hubs
             Console.WriteLine(gameSpeed);
 
             GameConfigOptions o = new GameConfigOptions();
-            
-            
+
+
             o.gameSpeed = GameSpeed;
             o.jetSpeed = JetSpeed;
             o.bulletSpeed = BulletSpeed;
@@ -325,18 +186,6 @@ namespace SignalRGame.Hubs
             _gameService.SetOptions(o);
 
         }
-
-
-
-
-
-
-        //public async Task SendNotification(Notification notification, string group)
-        //{
-
-        //}
-
-
-
     }
 }
+

@@ -82,7 +82,14 @@ namespace SignalRGame.GameLogic
                 
             }
 
-            Bullets = newBullets;
+            Bullets.Clear();
+            foreach (Bullet bullet in newBullets)
+            {
+                Bullets.Add(bullet);
+            }
+
+
+            //Bullets = newBullets;
         }
 
         public override void TakesDamage(float damage)

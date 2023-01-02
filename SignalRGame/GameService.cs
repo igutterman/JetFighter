@@ -176,10 +176,10 @@ namespace SignalRGame
 
         
 
-        public async Task SayHi()
-        {
-            await _context.Clients.All.ReceiveMessage("Pepe", "Hi");
-        }
+        //public async Task SayHi()
+        //{
+        //    await _context.Clients.All.ReceiveMessage("Pepe", "Hi");
+        //}
 
         public void TurnLeft(string connectionID, string game)
         {
